@@ -1,0 +1,11 @@
+venv/
+.idea/
+*/migrations/*.py
+!*/migrations/__init__.py
+*.pyc
+*.DS_Store
+.DS_Store
+*.py[cod]
+*$py.class
+*.sqlite3
+**/__pycache__/
