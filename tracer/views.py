@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+
+from tracer.models import UserInfo
 from tracer.my_forms import UserForm
 
 def register(request):
@@ -20,7 +22,7 @@ def register(request):
             extra = {}
             if avatar_obj:
                 extra['avatar'] = avatar_obj
-                user_obj = UserForm.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
+                user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
 
         else:
             print(form.cleaned_data)
@@ -28,3 +30,6 @@ def register(request):
             response['msg'] = form.errors
 
         return JsonResponse(response)
+    form = UserForm()
+
+    return render(request, 'register.html', {'form': form})

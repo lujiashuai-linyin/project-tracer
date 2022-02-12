@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/tracer/bs/css/bootstrap.css">
+    <style>
+        #avatar_id{
+            margin-left: 20px;
+        }
+        #avatar_id{
+
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h3>注册页面</h3>
+<div class="container">
+    <form id="form">
+        {%  csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {{ field }} <span class="error float-right"></span>
+            </div>
+
+        {% endfor %}
+
+        <div class="form-group">
+            <label for="avatar">
+                头像
+                <img id="avatar_id" width="60" height="60" src="/static/blog/img/default.png" alt="">
+            </label>
+            <input type="file" id="avatar">
+        </div>
+
+        <input type="button" class="btn reg-btn pull-right" value="submit"><span class="error"></span>
+    </form>
+</div>
+</body>
+</html>
