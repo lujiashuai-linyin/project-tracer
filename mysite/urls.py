@@ -22,10 +22,10 @@ urlpatterns = [
     #register and login
     path('register/', views.register),
     path('login/', views.login),
-    path('logout/', views.logout),
-    path('get_validCode_img/', views.get_validCode_img),
-    re_path('^$', views.index),
-    path('upload/', views.upload),
+    # path('logout/', views.logout),
+    # path('get_validCode_img/', views.get_validCode_img),
+    # re_path('^$', views.index),
+    # path('upload/', views.upload),
 
 
 ]
