@@ -41,7 +41,7 @@ def get_validCode_img(request):
     valid_code_str=""
     for i in range(5):
         random_num = str(random.randint(0,9))
-        random_low_alpha = chr(random.randint(95,122))
+        random_low_alpha = chr(random.randint(97,122))
         random_upper_alpha = chr(random.randint(65,90))
         random_char = random.choice([random_num,random_low_alpha,random_upper_alpha])
         draw.text((i*50,5), random_char, get_random_color(), font=kumo_font)

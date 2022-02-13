@@ -5,11 +5,15 @@
     <title>Title</title>
     <link rel="stylesheet" href="/static/tracer/bs/css/bootstrap.css">
     <style>
-        #avatar_id{
-            margin-left: 20px;
+        .account{
+            width: 400px;
+            margin: 0 auto;
         }
-        #avatar_id{
-
+        #avatar_id {
+            margin-left: 10px;
+        }
+        #avatar{
+            display: none;
         }
         .error{
             color: red;
@@ -17,28 +21,37 @@
     </style>
 </head>
 <body>
-<h3>注册页面</h3>
-<div class="container">
+<div class="account">
+    <h2 style="text-align: center">注册</h2>
     <form id="form">
         {%  csrf_token %}
 
         {% for field in form %}
-            <div class="form-group">
-                <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                {{ field }} <span class="error float-right"></span>
-            </div>
+            {% if field.name == 'code' %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                    <div class="clearfix">
+                        <div class="col-md-6" style="padding-left: 0">{{ field }}</div>
+                        <div class="col-md-6 pull-right"><input type="button" class="btn btn-default" value="获取短信验证码"></div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                    {{ field }} <span class="error float-right"></span>
+                </div>
+            {% endif %}
 
         {% endfor %}
 
         <div class="form-group">
             <label for="avatar">
                 头像
-                <img id="avatar_id" width="60" height="60" src="/static/blog/img/default.png" alt="">
+                <img id="avatar_id" width="40" height="40" src="/static/tracer/img/default.png" alt="">
             </label>
             <input type="file" id="avatar">
         </div>
-
-        <input type="button" class="btn reg-btn pull-right" value="submit"><span class="error"></span>
+            <input type="button" class="btn btn-primary" value="注册"><span class="error"></span>
     </form>
 </div>
 </body>
