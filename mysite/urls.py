@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #register and login
     path('register/', views.register),
+    path('register_valid_code/', views.register_valid_code),
     path('login/', views.login),
     # path('logout/', views.logout),
     # path('get_validCode_img/', views.get_validCode_img),

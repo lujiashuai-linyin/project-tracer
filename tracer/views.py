@@ -1,9 +1,16 @@
+import random
+
+import redis
+import redis as redis
 from django.contrib import auth
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
+from mysite import settings
 from tracer.models import UserInfo
 from tracer.my_forms import UserForm
+from utils.tencent.sms import send_sms_single
+
 
 def register(request):
     '''
@@ -15,19 +22,23 @@ def register(request):
 
         response = {'user': None, 'msg': None}
         if form.is_valid():
-            print(form.cleaned_data)
-            response['user'] = form.cleaned_data.get('user')
-            user = form.cleaned_data.get("user")
-            pwd = form.cleaned_data.get('pwd')
-            email = form.cleaned_data.get('email')
             telephone = form.cleaned_data.get('telephone')
-            avatar_obj = request.FILES.get('avatar')
+            code = form.cleaned_data.get('code')
+            if code == redis.get(telephone):
+                print(form.cleaned_data)
+                response['user'] = form.cleaned_data.get('user')
+                user = form.cleaned_data.get("user")
+                pwd = form.cleaned_data.get('pwd')
+                email = form.cleaned_data.get('email')
+                telephone = form.cleaned_data.get('telephone')
+                avatar_obj = request.FILES.get('avatar')
+                extra = {}
+                if avatar_obj:
+                    extra['avatar'] = avatar_obj
 
-            extra = {}
-            if avatar_obj:
-                extra['avatar'] = avatar_obj
                 user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
-
+            else:
+                response['msg'] = '请输入正确的验证码'
         else:
             print(form.cleaned_data)
             print(form.errors)
@@ -37,6 +48,16 @@ def register(request):
     form = UserForm()
 
     return render(request, 'register.html', {'form': form})
+
+def register_valid_code(request):
+    telephone = request.POST.get('telephone')
+    template_id = settings.TENCENT_SMS_TEMPLATE['register']
+    template_param_list = random.randrange(1000, 9999)
+    redis.Redis(password="xianjian1998")
+    dic = {telephone: template_param_list}
+    response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
+
+    return JsonResponse(response)
 
 def get_validCode_img(request):
     '''

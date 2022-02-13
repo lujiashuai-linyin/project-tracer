@@ -84,7 +84,7 @@ def register(request):
             extra = {}
             if avatar_obj:
                 extra["avatar"] = avatar_obj
-                user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, **extra)
+            user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, **extra)
 
         else:
             print(form.cleaned_data)
