@@ -18,3 +18,18 @@ TENCENT_SMS_APP_ID = 1400632003
 TENCENT_SMS_APP_KEY = "178c45c93e06ca4ce2bbf70b7b617a8e"
 #腾讯云短信签名内容
 TENCENT_SMS_SIGN = "林音三弦个人公众号"
+
+CACHES = {
+    "default": {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POLL_KWARGS': {
+                'max_connections': 1000,
+                'encoding': 'utf-8'
+            },
+            'PASSWORD': 'xianjian1998'
+}
+    }
+}

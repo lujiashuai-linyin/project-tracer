@@ -1,7 +1,5 @@
 venv/
 .idea/
-*/migrations/*.py
-!*/migrations/__init__.py
 *.pyc
 *.DS_Store
 .DS_Store

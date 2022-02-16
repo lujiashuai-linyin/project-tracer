@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from tracer import views
+from tracer.views import account
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #register and login
-    path('register/', views.register),
-    path('register_valid_code/', views.register_valid_code),
-    path('login/', views.login),
+    path('register/', account.register),
+    path('register_valid_code/', account.register_valid_code),
+    path('login/', account.login),
     # path('logout/', views.logout),
     # path('get_validCode_img/', views.get_validCode_img),
     # re_path('^$', views.index),

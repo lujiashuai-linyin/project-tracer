@@ -1,7 +1,6 @@
 import random
 
-import redis
-import redis as redis
+
 from django.contrib import auth
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -17,6 +16,7 @@ def register(request):
     register view
     '''
     if request.method == 'POST':
+        conn = get_redis_connection('default')
         print(request.POST)
         form = UserForm(request.POST)
 
@@ -24,7 +24,7 @@ def register(request):
         if form.is_valid():
             telephone = form.cleaned_data.get('telephone')
             code = form.cleaned_data.get('code')
-            if code == redis.get(telephone):
+            if code == conn.get(telephone):
                 print(form.cleaned_data)
                 response['user'] = form.cleaned_data.get('user')
                 user = form.cleaned_data.get("user")
@@ -49,15 +49,21 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
+
+from django.shortcuts import HttpResponse
+from django_redis import get_redis_connection
 def register_valid_code(request):
+    conn = get_redis_connection('default')
     telephone = request.POST.get('telephone')
     template_id = settings.TENCENT_SMS_TEMPLATE['register']
     template_param_list = random.randrange(1000, 9999)
-    redis.Redis(password="xianjian1998")
-    dic = {telephone: template_param_list}
+    conn.set(telephone, template_param_list, ex=30)
+
     response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
 
     return JsonResponse(response)
+
+
 
 def get_validCode_img(request):
     '''
@@ -89,3 +95,6 @@ def login(request):
         return JsonResponse(response)
 
     return render(request, 'login.html')
+
+
+
