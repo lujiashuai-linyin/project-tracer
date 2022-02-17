@@ -1,6 +1,7 @@
 import random
 
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 from django.contrib import auth
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -10,6 +11,7 @@ from tracer.models import UserInfo
 from tracer.my_forms import UserForm
 from utils.tencent.sms import send_sms_single
 
+#与用户注册登录相关
 
 def register(request):
     '''
@@ -17,17 +19,20 @@ def register(request):
     '''
     if request.method == 'POST':
         conn = get_redis_connection('default')
-        print(request.POST)
         form = UserForm(request.POST)
 
         response = {'user': None, 'msg': None}
         if form.is_valid():
             telephone = form.cleaned_data.get('telephone')
-            code = form.cleaned_data.get('code')
-            if code == conn.get(telephone):
-                print(form.cleaned_data)
+            code = int(form.cleaned_data.get('code'))
+            print(code)
+            valid_code = conn.get(telephone)
+            valid_code = int(bytes.decode(valid_code))
+            print(valid_code)
+            if code == valid_code:
                 response['user'] = form.cleaned_data.get('user')
                 user = form.cleaned_data.get("user")
+                print(user)
                 pwd = form.cleaned_data.get('pwd')
                 email = form.cleaned_data.get('email')
                 telephone = form.cleaned_data.get('telephone')
@@ -53,13 +58,16 @@ def register(request):
 from django.shortcuts import HttpResponse
 from django_redis import get_redis_connection
 def register_valid_code(request):
+    response = {"user":None,"result":None}
     conn = get_redis_connection('default')
     telephone = request.POST.get('telephone')
+    #自己开发时未做二次校验
+
     template_id = settings.TENCENT_SMS_TEMPLATE['register']
     template_param_list = random.randrange(1000, 9999)
     conn.set(telephone, template_param_list, ex=30)
-
-    response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
+    print(template_param_list)
+    # response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
 
     return JsonResponse(response)
 

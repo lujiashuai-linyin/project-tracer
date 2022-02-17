@@ -24,7 +24,7 @@
     float: left;
     width: 46px;
     height: 52px;
-    background: url("/static/font/upup.gif") no-repeat;
+    background: url("/tracer/static/font/upup.gif") no-repeat;
     text-align: center;
     cursor: pointer;
     margin-top: 2px;
@@ -36,7 +36,7 @@
     margin-left: 20px;
     width: 46px;
     height: 52px;
-    background: url("/static/font/downdown.gif") no-repeat;
+    background: url("/tracer/static/font/downdown.gif") no-repeat;
     text-align: center;
     cursor: pointer;
     margin-top: 2px;
@@ -55,7 +55,7 @@
 }
 
 input.author{
-    background-image: url("/static/font/icon_form.gif");
+    background-image: url("/tracer/static/font/icon_form.gif");
     background-repeat: no-repeat;
     border: 1px solid #ccc;
     padding: 4px 4px 4px 30px;

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/tracer/bs/css/bootstrap.css">
+{% extends 'layout/basic.html' %}
+{% load static %}
+
+{% block title %}用户注册{% endblock %}
+
+{% block css %}
     <style>
         .account{
             width: 400px;
@@ -19,8 +19,9 @@
             color: red;
         }
     </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
 <div class="account">
     <h2 style="text-align: center">注册</h2>
     <form id="form">
@@ -47,15 +48,16 @@
         <div class="form-group">
             <label for="avatar">
                 头像
-                <img id="avatar_id" width="40" height="40" src="/static/tracer/img/default.png" alt="">
+                <img id="avatar_id" width="40" height="40" src="{% static 'img/default.png' %}" alt="">
             </label>
             <input type="file" id="avatar">
         </div>
             <input type="button" class="btn btn-primary register_btn" value="注册"><span class="error"></span>
     </form>
 </div>
+{% endblock %}
 
-<script src="/static/js/jquery-3.2.1.min.js"></script>
+{% block js %}
 <script>
     //头像预览效果
     $("#avatar").change(function (){
@@ -113,13 +115,23 @@
 
     //获取验证码，并进行倒计时
     $('.valid_btn').click(function (){
+        var formdata = new FormData();
+        formdata.append("telephone", $("#id_telephone").val());
+        formdata.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val(),)
+
         $.ajax(
             {
-            url:''
+            url:'/register_valid_code/',
+            type:'post',
+            contentType:false,
+            processData:false,
+            data:formdata,
+            success: function (data){
+                console.log(data)
+            }
             }
         )
     })
 
 </script>
-</body>
-</html>
+{% endblock %}

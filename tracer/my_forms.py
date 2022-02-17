@@ -9,9 +9,11 @@ class UserForm(forms.Form):
     user = forms.CharField(max_length=32,
                            label='用户名',)
     pwd = forms.CharField(max_length=32,
-                          label='密码',)
+                          label='密码',
+                          widget=forms.PasswordInput())
     re_pwd = forms.CharField(max_length=32,
-                             label='确认密码',)
+                             label='确认密码',
+                             widget=forms.PasswordInput())
     email = forms.EmailField(max_length=32,
                              label='电子邮箱',)
     telephone = forms.CharField(
@@ -23,9 +25,7 @@ class UserForm(forms.Form):
         ],
     )
     code = forms.CharField(
-        label="验证码", validators=[
-            RegexValidator(
-                r'^\d{4}$', '请输入正确的验证码')])
+        label="验证码")
 
     class Mate:
         model = models.UserInfo
