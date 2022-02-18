@@ -36,3 +36,17 @@ class UserForm(forms.Form):
         for name, field in self.fields.items():
             field.widget.attrs["class"] = 'form-control'
             field.widget.attrs["placeholder"] = "请输入%s" % (field.label, )
+
+class SendSmsForm(forms.Form):
+    telephone = forms.CharField(label="手机号", validators=[
+        RegexValidator(
+            r'^1(3|4|5|6|7|8|9)\d{9}$',
+            '手机号格式错误'),
+    ],)
+    def clean_telephone(self):
+        telephone = self.cleaned_data['telephone']
+        exist = models.UserInfo.objects.filter(telephone=telephone).exists()
+        if exist:
+            raise ValidationError('手机号已存在')
+        return telephone
+

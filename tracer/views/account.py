@@ -8,7 +8,7 @@ from django.shortcuts import render
 
 from mysite import settings
 from tracer.models import UserInfo
-from tracer.my_forms import UserForm
+from tracer.my_forms import UserForm, SendSmsForm
 from utils.tencent.sms import send_sms_single
 
 #与用户注册登录相关
@@ -62,13 +62,15 @@ def register_valid_code(request):
     conn = get_redis_connection('default')
     telephone = request.POST.get('telephone')
     #自己开发时未做二次校验
-
-    template_id = settings.TENCENT_SMS_TEMPLATE['register']
-    template_param_list = random.randrange(1000, 9999)
-    conn.set(telephone, template_param_list, ex=30)
-    print(template_param_list)
-    # response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
-
+    form = SendSmsForm(data=request.POST)
+    if form.is_valid():
+        template_id = settings.TENCENT_SMS_TEMPLATE['register']
+        template_param_list = random.randrange(1000, 9999)
+        conn.set(telephone, template_param_list, ex=30)
+        print(template_param_list)
+        response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
+    else:
+        response['msg'] = form.errors
     return JsonResponse(response)
 
 
