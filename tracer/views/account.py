@@ -3,12 +3,12 @@ import random
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 from django.contrib import auth
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from mysite import settings
 from tracer.models import UserInfo
-from tracer.my_forms import UserForm, SendSmsForm
+from tracer.form.account import UserForm, SendSmsForm
 from utils.tencent.sms import send_sms_single
 
 #与用户注册登录相关
