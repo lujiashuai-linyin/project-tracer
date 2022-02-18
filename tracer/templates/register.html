@@ -1,29 +1,24 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
 
-{% block title %}用户注册{% endblock %}
+{% block title %} 用户注册 {% endblock %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
     <style>
-        .account{
-            width: 400px;
-            margin: 0 auto;
-        }
-        #avatar_id {
-            margin-left: 10px;
-        }
-        #avatar{
-            display: none;
-        }
-        .error{
-            color: red;
-        }
+    .error{
+        color: red;
+        position: absolute;
+        font-size: 13px;
+    }
     </style>
 {% endblock %}
 
 {% block content %}
-<div class="account">
-    <h2 style="text-align: center">注册</h2>
+<div class="background">
+    <div class="mask">
+        <div class="account">
+    <div class="title">用户注册</div>
     <form id="form">
         {%  csrf_token %}
 
@@ -54,6 +49,8 @@
         </div>
             <input type="button" class="btn btn-primary register_btn" value="注册"><span class="error"></span>
     </form>
+</div>
+    </div>
 </div>
 {% endblock %}
 

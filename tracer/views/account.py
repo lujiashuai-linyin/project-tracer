@@ -68,7 +68,7 @@ def register_valid_code(request):
         template_param_list = random.randrange(1000, 9999)
         conn.set(telephone, template_param_list, ex=30)
         print(template_param_list)
-        response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
+        # response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
     else:
         response['msg'] = form.errors
     return JsonResponse(response)
