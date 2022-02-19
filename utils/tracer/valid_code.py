@@ -6,12 +6,12 @@ def get_random_color():
 def get_validCode_img(request):
 
     from PIL import Image,ImageDraw, ImageFont
-    from io import  BytesIO
+    from io import BytesIO
 
-    img = Image.new('RGB', (270, 30), color=get_random_color())
+    img = Image.new('RGB', (131, 35), color=get_random_color())
 
     draw = ImageDraw.Draw(img)
-    kumo_font = ImageFont.truetype('static/font/kumo.ttf', size=20, )
+    kumo_font = ImageFont.truetype('/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/static/font/kumo.ttf', size=28,)
 
     valid_code_str = ""
     for i in range(5):
@@ -19,22 +19,20 @@ def get_validCode_img(request):
         random_low_alpha = chr(random.randint(97, 122))
         random_upper_alpha = chr(random.randint(65, 90))
         random_char = random.choice([random_num, random_low_alpha, random_upper_alpha])
-        draw.text((i*50, 5), random_char, get_random_color(), font=kumo_font)
+        draw.text((i*26, 5), random_char, get_random_color(), font=kumo_font)
         valid_code_str += random_char
 
-    draw.line()
-    draw.point()
 
-    width = 270
-    height = 30
-    for i in range(10):
+    width = 131
+    height = 35
+    for i in range(4):
         x1 = random.randint(0,width)
         x2 = random.randint(0,width)
         y1 = random.randint(0,height)
         y2 = random.randint(0,height)
         draw.line((x1,y1,x2,y2), fill=get_random_color())
 
-    for i in range(100):
+    for i in range(20):
         draw.point([random.randint(0, width), random.randint(0, height)], fill=get_random_color())
         x = random.randint(0, width)
         y = random.randint(0, height)

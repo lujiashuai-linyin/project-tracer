@@ -1,6 +1,11 @@
 import random
 
 import ssl
+
+from django.db.models import Q
+
+from tracer import models
+
 ssl._create_default_https_context = ssl._create_unverified_context
 from django.contrib import auth
 from django.http import JsonResponse
@@ -8,7 +13,7 @@ from django.shortcuts import render
 
 from mysite import settings
 from tracer.models import UserInfo
-from tracer.form.account import UserForm, SendSmsForm
+from tracer.form.account import UserForm, SendSmsForm, LoginSMSForm, LoginForm
 from utils.tencent.sms import send_sms_single
 
 #与用户注册登录相关
@@ -23,27 +28,18 @@ def register(request):
 
         response = {'user': None, 'msg': None}
         if form.is_valid():
+            user = form.cleaned_data.get("user")
+            response['user'] = user
+            pwd = form.cleaned_data.get('pwd')
+            email = form.cleaned_data.get('email')
             telephone = form.cleaned_data.get('telephone')
-            code = int(form.cleaned_data.get('code'))
-            print(code)
-            valid_code = conn.get(telephone)
-            valid_code = int(bytes.decode(valid_code))
-            print(valid_code)
-            if code == valid_code:
-                response['user'] = form.cleaned_data.get('user')
-                user = form.cleaned_data.get("user")
-                print(user)
-                pwd = form.cleaned_data.get('pwd')
-                email = form.cleaned_data.get('email')
-                telephone = form.cleaned_data.get('telephone')
-                avatar_obj = request.FILES.get('avatar')
-                extra = {}
-                if avatar_obj:
-                    extra['avatar'] = avatar_obj
-
-                user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
-            else:
-                response['msg'] = '请输入正确的验证码'
+            avatar_obj = request.FILES.get('avatar')
+            extra = {}
+            if avatar_obj:
+                extra['avatar'] = avatar_obj
+            #写入数据库nb方法,但是密码明文保存
+            # form.save()
+            user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
         else:
             print(form.cleaned_data)
             print(form.errors)
@@ -58,22 +54,15 @@ def register(request):
 from django.shortcuts import HttpResponse
 from django_redis import get_redis_connection
 def register_valid_code(request):
-    response = {"user":None,"result":None}
-    conn = get_redis_connection('default')
-    telephone = request.POST.get('telephone')
+    response = {"result": None, "msg": None}
     #自己开发时未做二次校验
-    form = SendSmsForm(data=request.POST)
+    form = SendSmsForm(request, data=request.GET)
     if form.is_valid():
-        template_id = settings.TENCENT_SMS_TEMPLATE['register']
-        template_param_list = random.randrange(1000, 9999)
-        conn.set(telephone, template_param_list, ex=30)
-        print(template_param_list)
-        # response = send_sms_single(telephone, template_id, template_param_list=[template_param_list, ])
+        response['result'] = True
     else:
+        response['result'] = False
         response['msg'] = form.errors
     return JsonResponse(response)
-
-
 
 def get_validCode_img(request):
     '''
@@ -82,29 +71,55 @@ def get_validCode_img(request):
     from utils.tracer.valid_code import get_validCode_img
     img_data = get_validCode_img(request)
     return HttpResponse(img_data)
+def login_sms(request):
+    """ 短信登录 """
+    response = {"user": None, "msg": None}
+    if request.method == 'GET':
+        form = LoginSMSForm()
+        return render(request, 'login_sms.html', {'form': form})
+    form = LoginSMSForm(request.POST)
+    if form.is_valid():
+        # 用户输入正确，登录成功
+        mobile_phone = form.cleaned_data['template']
+
+        # 把用户名写入到session中#重点！
+        user_object = models.UserInfo.objects.filter(template=mobile_phone).first()
+        response['user'] = user_object.username
+        request.session['user_id'] = user_object.id
+        request.session.set_expiry(60 * 60 * 24 * 14)
+
+        return JsonResponse(response)
+    else:
+        response['msg'] = form.errors
+
+    return JsonResponse(response)
 
 def login(request):
     if request.method == 'POST':
 
         response = {'user': None, 'msg': None}
-        user = request.POST.get("user")
-        pwd = request.POST.get('pwd')
-        valid_code = request.POST.get('valid_code')
-
-        valid_code_str = request.session.get('valid_code_str')
-        if valid_code.upper() == valid_code_str.upper():
-            user = auth.authenticate(username=user, password=pwd)
+        username = request.POST.get("username")
+        password = request.POST.get('password')
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user_object = models.UserInfo.objects.filter(Q(email=username) | Q(telephone=username)).first()
+            user = auth.authenticate(username=user_object.username, password=password)
             if user:
                 auth.login(request, user)
+
+                request.session['user_id'] = user.pk
+                request.session.set_expiry(60 * 60 * 24 * 14)
                 response['user'] = user.username
             else:
-                response['msg'] = '用户名或密码错误'
+                response['msg'] = {'username': ['用户名或密码错误', ]}
         else:
-            response['msg'] = '验证码错误'
+            response['msg'] = form.errors
 
         return JsonResponse(response)
 
-    return render(request, 'login.html')
+    form = LoginForm(request)
 
+    return render(request, 'login.html', {'form': form})
 
-
+def index(request):
+    return render(request, 'index.html')

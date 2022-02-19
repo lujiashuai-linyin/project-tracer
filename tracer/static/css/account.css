@@ -49,3 +49,9 @@
 #avatar{
     display: none;
 }
+
+.error{
+    color: #f58220;
+    position: absolute;
+    font-size: 13px;
+}
