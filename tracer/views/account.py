@@ -81,12 +81,10 @@ def login_sms(request):
     if form.is_valid():
         # 用户输入正确，登录成功
         mobile_phone = form.cleaned_data['template']
-
+        user = models.UserInfo.objects.filter(telephone=mobile_phone).first()
         # 把用户名写入到session中#重点！
-        user_object = models.UserInfo.objects.filter(template=mobile_phone).first()
-        response['user'] = user_object.username
-        request.session['user_id'] = user_object.id
-        request.session.set_expiry(60 * 60 * 24 * 14)
+        auth.login(request, user)
+        response['user'] = user.username
 
         return JsonResponse(response)
     else:
@@ -106,9 +104,6 @@ def login(request):
             user = auth.authenticate(username=user_object.username, password=password)
             if user:
                 auth.login(request, user)
-
-                request.session['user_id'] = user.pk
-                request.session.set_expiry(60 * 60 * 24 * 14)
                 response['user'] = user.username
             else:
                 response['msg'] = {'username': ['用户名或密码错误', ]}
