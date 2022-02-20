@@ -113,7 +113,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -143,6 +143,19 @@ TENCENT_SMS_TEMPLATE = {
     "re_pwd": 1300420
 }
 
+#用户上传相关
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+#给用户发邮件
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_POST = 123
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_SSL = True
+
+LOGIN_URL = '/login/'
 
 try:
     from .local_settings import *

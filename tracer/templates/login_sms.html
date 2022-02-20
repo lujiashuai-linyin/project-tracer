@@ -17,7 +17,7 @@
         {% for field in form %}
             {% if field.name == 'code' %}
                 <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
                     <div class="row">
                         <div class="col-xs-7">
                             {{ field }}
@@ -30,7 +30,7 @@
                 </div>
             {% else %}
                 <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
                     {{ field }}
                     <span class="error"></span>
                 </div>
@@ -94,15 +94,16 @@
 
                 // 获取用户输入的手机号
                 // 找到输入框的ID，根据ID获取值，如何找到手机号的那个ID？
-                var mobilePhone = $('#id_mobile_phone').val();
+                var telephone = $('#id_telephone').val();
 
                 // 发送ajax请求，把手机号发送过去
                 $.ajax({
                     url: "/register_valid_code/", // 等价于 /send/sms/
                     type: "GET",
-                    data: {telephone: mobilePhone, template: "login"},
+                    data: {'telephone': telephone, 'template': "login"},
                     dataType: "JSON", // 将服务端返回的数据反序列化为字典
                     success: function (res) {
+                        console.log(res)
                         // ajax请求发送成功之后，自动执行的函数； res就是后端返回的值
                         if (res.result) {
                             sendSmsRemind();
@@ -125,7 +126,7 @@
         function sendSmsRemind() {
             var $smsBtn = $('#btnSms');
             $smsBtn.prop('disabled', true); // 禁用
-            var time = 60;
+            var time = 30;
             var remind = setInterval(function () {
                 $smsBtn.val(time + '秒重新发送');
                 time = time - 1;

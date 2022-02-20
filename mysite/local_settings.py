@@ -29,7 +29,7 @@ CACHES = {
                 'max_connections': 1000,
                 'encoding': 'utf-8'
             },
-            'PASSWORD': ''
+            'PASSWORD': 'xianjian1998'
 }
     }
 }

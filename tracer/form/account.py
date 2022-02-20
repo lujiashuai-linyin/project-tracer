@@ -65,14 +65,17 @@ class UserForm(BootStrapForm, forms.Form):
         else:
             raise ValidationError("该用户已注册")
 
-    def clean_re_pwd(self):
+    def clean(self):
         pwd = self.cleaned_data.get("pwd")
         re_pwd = self.cleaned_data.get("re_pwd")
-
-        if pwd == re_pwd:
-            return re_pwd
+        user = self.cleaned_data.get('user')
+        if user and pwd and re_pwd:
+            if pwd == re_pwd:
+                return re_pwd
+            else:
+                raise ValidationError("两次密码输入不一致")
         else:
-            raise ValidationError("两次密码输入不一致")
+            return self.cleaned_data
 
     # def clean_password(self):
     #     pwd = self.cleaned_data['password']
@@ -150,7 +153,7 @@ class SendSmsForm(forms.Form):
         return telephone
 
 class LoginSMSForm(BootStrapForm, forms.Form):
-    template = forms.CharField(
+    telephone = forms.CharField(
         label='手机号',
         error_messages={"required": "手机号不能为空"},
         validators=[RegexValidator(r'^(1[3|4|5|6|7|8|9])\d{9}$', '手机号格式错误'), ]
@@ -161,7 +164,7 @@ class LoginSMSForm(BootStrapForm, forms.Form):
         error_messages={"required": "请输入验证码"},
         widget=forms.TextInput())
 
-    def clean_mobile_phone(self):
+    def clean_telephone(self):
         mobile_phone = self.cleaned_data['telephone']
         exists = models.UserInfo.objects.filter(telephone=mobile_phone).exists()
         # user_object = models.UserInfo.objects.filter(mobile_phone=mobile_phone).first()

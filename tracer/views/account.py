@@ -9,7 +9,7 @@ from tracer import models
 ssl._create_default_https_context = ssl._create_unverified_context
 from django.contrib import auth
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from mysite import settings
 from tracer.models import UserInfo
@@ -80,7 +80,7 @@ def login_sms(request):
     form = LoginSMSForm(request.POST)
     if form.is_valid():
         # 用户输入正确，登录成功
-        mobile_phone = form.cleaned_data['template']
+        mobile_phone = form.cleaned_data['telephone']
         user = models.UserInfo.objects.filter(telephone=mobile_phone).first()
         # 把用户名写入到session中#重点！
         auth.login(request, user)
@@ -118,3 +118,10 @@ def login(request):
 
 def index(request):
     return render(request, 'index.html')
+
+def logout(request):
+
+    # auth.logout(request)
+    request.session.flush()
+
+    return redirect('/index/')
