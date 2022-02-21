@@ -172,7 +172,6 @@ class LoginSMSForm(BootStrapForm, forms.Form):
             raise ValidationError('该手机号未注册')
 
         return mobile_phone
-
     def clean_code(self):
         code = self.cleaned_data['code']
         mobile_phone = self.cleaned_data.get('telephone')
