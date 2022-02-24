@@ -1,6 +1,8 @@
+import datetime
 import random
 
 import ssl
+import uuid
 
 from django.db.models import Q
 
@@ -23,16 +25,16 @@ def register(request):
     register view
     '''
     if request.method == 'POST':
-        conn = get_redis_connection('default')
+
         form = UserForm(request.POST)
 
         response = {'user': None, 'msg': None}
         if form.is_valid():
-            user = form.cleaned_data.get("user")
+            user = form.data.get('user')
             response['user'] = user
-            pwd = form.cleaned_data.get('pwd')
-            email = form.cleaned_data.get('email')
-            telephone = form.cleaned_data.get('telephone')
+            pwd = form.data.get('pwd')
+            email = form.data.get('email')
+            telephone = form.data.get('telephone')
             avatar_obj = request.FILES.get('avatar')
             extra = {}
             if avatar_obj:
@@ -40,6 +42,16 @@ def register(request):
             #写入数据库nb方法,但是密码明文保存
             # form.save()
             user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
+            price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
+            models.Transaction.objects.create(
+                status=2,
+                order=str(uuid.uuid4()),
+                user=user_obj,
+                price_policy=price_policy,
+                count=0,
+                price=0,
+                start_datetime=datetime.datetime.now(),
+            )
         else:
             print(form.cleaned_data)
             print(form.errors)

@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tracer.middleware.auth.AuthMiddleware'
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -156,6 +157,17 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True
 
 LOGIN_URL = '/login/'
+
+WHITE_REGEX_URL_LIST = [
+    "/register/",
+    "/send/sms/",
+    "/login/",
+    "/login/sms/",
+    "/get_validCode_img/",
+    "/index/",
+    "/price/",
+    '/register_valid_code/',
+]
 
 try:
     from .local_settings import *
