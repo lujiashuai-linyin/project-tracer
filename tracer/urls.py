@@ -19,5 +19,9 @@ urlpatterns = [
     # path('upload/', account.upload),
     #项目列表
     path('project/list/', project.project_list, name='project_list'),
+    # /project/star/my/1
+    # /project/star/join/1
+    re_path(r'^project/unstar/(?P<project_type>\w+)/(?P<project_id>\d+)/$', project.project_unstar, name='project_unstar'),
+    re_path(r'^project/star/(?P<project_type>\w+)/(?P<project_id>\d+)/$', project.project_star, name='project_star')
 
 ]

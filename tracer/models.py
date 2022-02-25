@@ -85,6 +85,8 @@ class Project(models.Model):
 
     # bucket = models.CharField(verbose_name='cos桶', max_length=128)
     # region = models.CharField(verbose_name='cos区域', max_length=32)
+    def __str__(self):
+        return self.name
 
 class ProjectUser(models.Model):
     """ 项目参与者 """

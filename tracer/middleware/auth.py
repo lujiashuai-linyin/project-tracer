@@ -37,10 +37,23 @@ class AuthMiddleware(MiddlewareMixin):
 
         #登录成功后，访问后台管理时，获取当前用户所拥有的额度
         #方式一：免费额度在交易记录中储存
-        #获取当前用户id最大的交易记录
-        _object = models.Transaction.objects.filter(user=user_object, status=2).order_by('-id').first()
-        #判断是否已经过期
+        # #获取当前用户id最大的交易记录
+        # _object = models.Transaction.objects.filter(user=user_object, status=2).order_by('-id').first()
+        # #判断是否已经过期
         current_datetime = datetime.datetime.now()
-        if _object.end_datetime and _object.end_datetime < current_datetime:
-            _object = models.Transaction.objects.filter(user=user_object, status=2, price_policy__category=1).first()
-        request.price_policy = _object.price_policy
+        # if _object.end_datetime and _object.end_datetime < current_datetime:
+        #     _object = models.Transaction.objects.filter(user=user_object, status=2, price_policy__category=1).first()
+        # request.price_policy = _object.price_policy
+
+        #方式二：免费的额度存储配置文件,此方法不需要在试图函数创建订单记录
+        #获取当前用户id值最大（最近交易记录）
+        _object = models.Transaction.objects.filter(user=user_object, status=2).order_by('-id').first()
+
+        if not _object:
+            request.tracer.price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
+        else:
+            if _object.end_datetime and _object.end_datetime < current_datetime:
+                request.tracer.price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
+            else:
+                request.tracer.price_policy = _object.price_policy
+

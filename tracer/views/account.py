@@ -39,22 +39,22 @@ def register(request):
             extra = {}
             if avatar_obj:
                 extra['avatar'] = avatar_obj
-            #写入数据库nb方法,但是密码明文保存
+            UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
+        #写入数据库nb方法,但是密码明文保存
             # form.save()
-            user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, telephone=telephone, **extra)
-            price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
-            models.Transaction.objects.create(
-                status=2,
-                order=str(uuid.uuid4()),
-                user=user_obj,
-                price_policy=price_policy,
-                count=0,
-                price=0,
-                start_datetime=datetime.datetime.now(),
-            )
+            #方法一
+            # price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
+            # models.Transaction.objects.create(
+            #     status=2,
+            #     order=str(uuid.uuid4()),
+            #     user=user_obj,
+            #     price_policy=price_policy,
+            #     count=0,
+            #     price=0,
+            #     start_datetime=datetime.datetime.now(),
+            # )
+            #方法二
         else:
-            print(form.cleaned_data)
-            print(form.errors)
             response['msg'] = form.errors
 
         return JsonResponse(response)
@@ -83,6 +83,7 @@ def get_validCode_img(request):
     from utils.tracer.valid_code import get_validCode_img
     img_data = get_validCode_img(request)
     return HttpResponse(img_data)
+
 def login_sms(request):
     """ 短信登录 """
     response = {"user": None, "msg": None}
