@@ -100,3 +100,18 @@ class ProjectUser(models.Model):
         v = self.project.name + "---" + self.user.username
         return v
 
+class Wiki(models.Model):
+    """Wiki"""
+    project = models.ForeignKey(verbose_name='项目', to=Project, on_delete=models.CASCADE)
+    title = models.CharField(verbose_name='标题', max_length=32)
+    content = models.TextField(verbose_name='内容')
+    user = models.ForeignKey(verbose_name='创建者', to=UserInfo, null=True, on_delete=models.SET_NULL)
+    create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+    depth = models.SmallIntegerField(verbose_name='深度', default=1)
+    #自关联
+    parent = models.ForeignKey(verbose_name='父文章', to='Wiki', null=True, blank=True, on_delete=models.CASCADE, related_name='children')
+
+    def __str__(self):
+        return self.title
+
+

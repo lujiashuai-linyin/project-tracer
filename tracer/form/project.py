@@ -14,7 +14,7 @@ class ProjectModelForm(BootStrapForm, forms.ModelForm):
     class Meta:
         model = models.Project
         fields = ['name', 'color', 'desc']
-        widgets={
+        widgets = {
             'desc': forms.Textarea,
             'color': ColorRadioSelect(attrs={'class': 'color-radio'})
         }

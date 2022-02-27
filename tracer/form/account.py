@@ -14,7 +14,7 @@ from tracer.form.bootstrap import BootStrapForm
 from utils.tencent.sms import send_sms_single
 
 
-class UserForm(BootStrapForm, forms.Form):
+class UserForm(BootStrapForm, forms.ModelForm):
     user = forms.CharField(
         error_messages={"required": "用户名不能为空"},
         max_length=32,
@@ -58,7 +58,7 @@ class UserForm(BootStrapForm, forms.Form):
         fields = "__all__"
 
     def clean_user(self):
-        val = self.cleaned_data.get('user')
+        val = self.cleaned_data['user']
         user = models.UserInfo.objects.filter(username=val).exists()
         if not user:
             return val
@@ -66,9 +66,9 @@ class UserForm(BootStrapForm, forms.Form):
             raise ValidationError("该用户已注册")
 
     def clean(self):
-        pwd = self.cleaned_data.get("pwd")
-        re_pwd = self.cleaned_data.get("re_pwd")
-        user = self.cleaned_data.get('user')
+        pwd = self.cleaned_data["pwd"]
+        re_pwd = self.cleaned_data["re_pwd"]
+        user = self.cleaned_data['user']
         if user and pwd and re_pwd:
             if pwd == re_pwd:
                 return re_pwd
@@ -98,7 +98,7 @@ class UserForm(BootStrapForm, forms.Form):
 
     def clean_code(self):
         code = self.cleaned_data['code']
-        mobile_phone = self.cleaned_data.get('telephone')
+        mobile_phone = self.cleaned_data['telephone']
         if not mobile_phone:
             return code
 
@@ -174,7 +174,7 @@ class LoginSMSForm(BootStrapForm, forms.Form):
         return mobile_phone
     def clean_code(self):
         code = self.cleaned_data['code']
-        mobile_phone = self.cleaned_data.get('telephone')
+        mobile_phone = self.cleaned_data['telephone']
 
         # 手机号不存在，则验证码无需再校验
         if not mobile_phone:

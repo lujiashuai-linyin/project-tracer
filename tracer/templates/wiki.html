@@ -1,0 +1,13 @@
+{% extends 'layout/manage.html' %}
+{% block content %}
+    <form action="" method="post">
+        <div class="add-wiki">
+            <div class="form-group">
+                {% for item in form %}
+                    <label for={{ item.auto_id }}>{{ item.label }}</label>
+                    {{ item }}
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+{% endblock %}
