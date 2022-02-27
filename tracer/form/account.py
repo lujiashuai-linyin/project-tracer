@@ -14,7 +14,7 @@ from tracer.form.bootstrap import BootStrapForm
 from utils.tencent.sms import send_sms_single
 
 
-class UserForm(BootStrapForm, forms.ModelForm):
+class UserForm(BootStrapForm, forms.Form):
     user = forms.CharField(
         error_messages={"required": "用户名不能为空"},
         max_length=32,
@@ -55,7 +55,7 @@ class UserForm(BootStrapForm, forms.ModelForm):
 
     class Mate:
         model = models.UserInfo
-        fields = "__all__"
+        # fields = "__all__"
 
     def clean_user(self):
         val = self.cleaned_data['user']
