@@ -19,6 +19,10 @@ TENCENT_SMS_APP_KEY = "178c45c93e06ca4ce2bbf70b7b617a8e"
 #腾讯云短信签名内容
 TENCENT_SMS_SIGN = "林音三弦个人公众号"
 
+#腾讯cos的id和key
+COS_SECRET_ID = 'AKIDaz81e05tPecJkvpTqwqTqypQknZ4IH1U'   # 替换为用户的 secretId
+COS_SECRET_KEY = 'DApDKAk36sNaMrHTP5UcU6RVIq77rQkn'
+
 CACHES = {
     "default": {
         'BACKEND': 'django_redis.cache.RedisCache',

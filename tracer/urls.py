@@ -30,6 +30,7 @@ urlpatterns = [
         re_path(r'^wiki/$', wiki.wiki, name='wiki'),
         re_path(r'^wiki/add/$', wiki.wiki_add, name='wiki_add'),
         re_path(r'^wiki/catalog/$', wiki.wiki_catalog, name='wiki_catalog'),
+        # re_path(r'^wiki/sub/catalog/(?P<wiki_id>\d+)/$', wiki.wiki_sub_catalog, name='wiki_sub_catalog'),
         re_path(r'^wiki/delete/(?P<wiki_id>\d+)/$', wiki.wiki_delete, name='wiki_delete'),
         re_path(r'^wiki/edit/(?P<wiki_id>\d+)/$', wiki.wiki_edit, name='wiki_edit'),
         re_path(r'^wiki/upload/$', wiki.wiki_upload, name='wiki_upload'),

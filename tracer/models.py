@@ -83,8 +83,8 @@ class Project(models.Model):
     creator = models.ForeignKey(verbose_name='创建者', to='UserInfo', null=True, on_delete=models.SET_NULL)
     create_datetime = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
 
-    # bucket = models.CharField(verbose_name='cos桶', max_length=128)
-    # region = models.CharField(verbose_name='cos区域', max_length=32)
+    bucket = models.CharField(verbose_name='cos桶', max_length=128)
+    region = models.CharField(verbose_name='cos区域', max_length=32)
     def __str__(self):
         return self.name
 
@@ -107,6 +107,8 @@ class Wiki(models.Model):
     content = models.TextField(verbose_name='内容')
     user = models.ForeignKey(verbose_name='创建者', to=UserInfo, null=True, on_delete=models.SET_NULL)
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+    last_edit_time = models.DateTimeField(verbose_name='最近修改时间', null=True, blank=True)
+    last_edit_user = models.ForeignKey(verbose_name='最近修改人', to=UserInfo, null=True, blank=True, on_delete=models.SET_NULL, related_name='last_edit_user')
     depth = models.SmallIntegerField(verbose_name='深度', default=1)
     #自关联
     parent = models.ForeignKey(verbose_name='父文章', to='Wiki', null=True, blank=True, on_delete=models.CASCADE, related_name='children')
@@ -115,3 +117,8 @@ class Wiki(models.Model):
         return self.title
 
 
+class WikiJoin(models.Model):
+    wiki = models.ForeignKey(verbose_name='wiki', to=Wiki, on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name='参与者', to=UserInfo, on_delete=models.CASCADE)
+    collection = models.BooleanField(verbose_name='收藏', default=False)
+    editor = models.BooleanField(verbose_name='编辑', default=False)

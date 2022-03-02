@@ -1,8 +1,12 @@
+import time
+
 from django.shortcuts import render, redirect
 
 from tracer import models
 from tracer.form.project import ProjectModelForm
 from django.http import JsonResponse
+
+from utils.tencent.cos import create_bucket
 
 def project_list(request):
     # print(request.tracer.user.username)
@@ -42,7 +46,15 @@ def project_list(request):
     form = ProjectModelForm(request, data=request.POST)
     if form.is_valid():
         response['status'] = True
+        #为项目创建一个桶
+        bucket = f"{request.user.pk}-{form.cleaned_data['name']}-{str(int(time.time()))}-1309571620"
+        region = 'ap-beijing'
+        create_bucket(bucket, region=region)
+
+        form .instance.bucket = bucket
+        form.instance.region = region
         form.instance.creator = request.user
+        #创建项目
         form.save()
         return JsonResponse(response)
 
