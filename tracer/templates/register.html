@@ -5,6 +5,15 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/account.css' %}">
+    <style>
+        .valid_code{
+            color: #f58220;
+            position: absolute;
+            font-size: 13px;
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -39,6 +48,7 @@
                 <img id="avatar_id" width="40" height="40" src="{% static 'img/default.png' %}" alt="">
             </label>
             <input type="file" id="avatar">
+            <span class="valid_code right"></span>
         </div>
             <input type="button" class="btn btn-primary register_btn" value="注册"><span class="error"></span>
     </form>
@@ -179,6 +189,7 @@
                     console.log(res)
                     if (res.result) {
                         sendSmsRemind();
+                        $('.valid_code').text(res.extra);
                     } else {
                         // 错误信息
                         // console.log(res); // {status:False, error:{ mobile_phone: ["错误信息"，],code: ["错误信息"，] }  }
@@ -201,6 +212,7 @@
             if (time < 1) {
                 clearInterval(remind);
                 $smsBtn.val('点击获取验证码').prop('disabled', false);
+                $('.valid_code').text('');
             }
         }, 1000)
 

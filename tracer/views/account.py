@@ -66,11 +66,15 @@ def register(request):
 from django.shortcuts import HttpResponse
 from django_redis import get_redis_connection
 def register_valid_code(request):
-    response = {"result": None, "msg": None}
+    response = {"result": None, "msg": None, 'extra': None}
     #自己开发时未做二次校验
     form = SendSmsForm(request, data=request.GET)
     if form.is_valid():
         response['result'] = True
+        conn = get_redis_connection()
+        mobile_phone = form.data.get('telephone')
+        redis_code = conn.get(mobile_phone).decode('utf-8')
+        response['extra'] = "没钱用腾讯云短信了" + str(redis_code)
     else:
         response['result'] = False
         response['msg'] = form.errors

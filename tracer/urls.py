@@ -20,6 +20,7 @@ urlpatterns = [
     # path('upload/', account.upload),
     #项目列表
     path('project/list/', project.project_list, name='project_list'),
+    re_path(r'^project/list/application/(?P<project_id>\d+)/$', project.project_application, name='project_application'),
     # /project/star/my/1
     # /project/star/join/1
     re_path(r'^project/unstar/(?P<project_type>\w+)/(?P<project_id>\d+)/$', project.project_unstar, name='project_unstar'),
@@ -52,6 +53,7 @@ urlpatterns = [
 
         re_path(r'^project/detail/$', project_detail.project_detail, name='project_detail'),
         re_path(r'^dashboard/issues/chart/$', project_detail.issues_chart, name='issues_chart'),
+        re_path(r'^project/test_result/$', project_detail.test_result, name='test_result'),
 
         re_path(r'^statistics/$', statistics.statistics, name='statistics'),
         re_path(r'^statistics/priority/$', statistics.statistics_priority, name='statistics_priority'),

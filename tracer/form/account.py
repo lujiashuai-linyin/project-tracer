@@ -150,7 +150,7 @@ class SendSmsForm(forms.Form):
         conn = get_redis_connection('default')
         conn.set(telephone, template_param_list, ex=30)
 
-        return telephone
+        return template_param_list
 
 class LoginSMSForm(BootStrapForm, forms.Form):
     telephone = forms.CharField(

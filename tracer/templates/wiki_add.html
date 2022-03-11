@@ -2,6 +2,7 @@
 {{% load static %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'plugin/editor-md/css/editormd.min.css' %}">
+
     <style>
         .panel-default {
             margin-top: 10px;
@@ -62,6 +63,21 @@
                     <ul id="catalog">
 
                     </ul>
+                    <div class="waifu" id="waifu">
+
+                        <div class="waifu-tips" style="opacity: 1;"></div>
+                        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+                        <div class="waifu-tool">
+                            <span class="fui-home"></span>
+                            <span class="fui-chat"></span>
+                            <span class="fui-eye"></span>
+                            <span class="fui-user"></span>
+                            <span class="fui-photo"></span>
+                            <span class="fui-info-circle"></span>
+                            <span class="fui-cross"></span>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-sm-9 content">
                     <form method="post">
@@ -94,8 +110,12 @@
 
 {% block js %}
     <script src="{% static 'plugin/editor-md/editormd.min.js' %}"></script>
+
     <script>
         var WIKI_DETAIL_URL = "{% url 'wiki' project_id=request.tracer.project.id %}";
+        var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";
+
+
         $(function (){
             initCatalog();
             initEditorMd();
@@ -128,7 +148,10 @@
             editormd('editor',{
                 placeholder: '请输入内容',
                 height: 500,
-                path: '{% static 'plugin/editor-md/lib/' %}'
+                path: '{% static 'plugin/editor-md/lib/' %}',
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "png", 'gif'],
+                imageUploadURL: WIKI_UPLOAD_URL
             })
         }
 

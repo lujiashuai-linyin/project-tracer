@@ -122,3 +122,40 @@ class WikiJoin(models.Model):
     user = models.ForeignKey(verbose_name='参与者', to=UserInfo, on_delete=models.CASCADE)
     collection = models.BooleanField(verbose_name='收藏', default=False)
     editor = models.BooleanField(verbose_name='编辑', default=False)
+
+
+
+class TikTokAutoTest(models.Model):
+    platform = models.CharField(verbose_name='平台', max_length=32)
+    version_detail = models.CharField(verbose_name='版本详情', max_length=32)
+    task_id = models.IntegerField(verbose_name='任务id')
+    test_path = models.CharField(verbose_name='脚本路径', null=True, blank=True, max_length=300)
+    event = models.CharField(verbose_name='EVENT', max_length=16)
+    test_case_url = models.CharField(verbose_name='埋点url', max_length=300)
+    result = models.BooleanField(verbose_name='测试结果', default=False)
+    create_time = models.DateTimeField(verbose_name='收录时间', auto_now_add=True)
+
+    class Meta:
+        unique_together = ('task_id', 'test_case_url')
+
+class FileRepository(models.Model):
+    """ 文件库 """
+    project = models.ForeignKey(verbose_name='项目', to='Project', on_delete=models.CASCADE)
+    file_type_choices = (
+        (1, '文件'),
+        (2, '文件夹')
+    )
+    file_type = models.SmallIntegerField(verbose_name='类型', choices=file_type_choices)
+    name = models.CharField(verbose_name='文件夹名称', max_length=32, help_text="文件/文件夹名")
+    key = models.CharField(verbose_name='文件储存在COS中的KEY', max_length=128, null=True, blank=True)
+
+    # int类型最大表示的数据
+    file_size = models.BigIntegerField(verbose_name='文件大小', null=True, blank=True, help_text='字节')
+
+    file_path = models.CharField(verbose_name='文件路径', max_length=255, null=True,
+                                 blank=True)  # https://桶.cos.ap-chengdu/....
+
+    parent = models.ForeignKey(verbose_name='父级目录', to='self', related_name='child', null=True, blank=True, on_delete=models.CASCADE)
+
+    update_user = models.ForeignKey(verbose_name='最近更新者', to='UserInfo', null=True, blank=True, on_delete=models.SET_NULL)
+    update_datetime = models.DateTimeField(verbose_name='更新时间', auto_now=True)

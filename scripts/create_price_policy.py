@@ -12,5 +12,7 @@ def run():
             project_space=20,
             per_file_size=5,
         )
+def run1():
+    models.ProjectUser.objects.filter(user_id=3).delete()
 if __name__ == "__main__":
-    run()
+    run1()

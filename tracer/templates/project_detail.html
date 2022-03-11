@@ -1,7 +1,20 @@
 {% extends 'layout/manage.html' %}
+{% load static %}
 {% block title %}{{ request.tracer.project.name }}{% endblock %}
 {% block css %}
+    <link rel="stylesheet" href="{% static 'plugin/bootstrap-table-master/dist/bootstrap-table.min.css' %}">
     <style>
+        .fixed-table-toolbar {
+            float:right;
+        }
+        .btn{
+            nav-right: auto;
+        }
+        #toolbar {
+            right: auto;
+        }
+        .table>thead>tr>th { text-align: center;}
+
         .table-right > tbody > tr > td.label-left {
             width: 90px;
         }
@@ -62,9 +75,103 @@
 {% endblock %}
 
 {% block content %}
+    <div class="result_table container-fluid">
+        <table id="table" class="table table-border" style="table-layout:fixed;word-break:break-all;">
 
+        </table>
+    </div>
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'plugin/bootstrap-table-master/dist/bootstrap-table.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js' %}"></script>
+    <script>
+        $('#table').bootstrapTable({
+            url: '{% url 'test_result' project_id=request.tracer.project.id %}',        // 表格数据来源
+            method: "get",  //使用get请求到服务器获取数据
+            dataType: "json",
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            {#queryParams: oTableInit.queryParams,//传递参数（*）#}
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            {#height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度#}
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            queryParamsType : "total",
 
+            columns: [
+                {
+                    checkbox: true
+                },{
+                field: 'platform',
+                title: '平台'
+            }, {
+                field: 'version_detail',
+                title: '版本详情',
+                width:100
+            }, {
+                field: 'task_id',
+                title: '任务id',
+                align: 'center'
+            },{
+                field: 'test_path',
+                title: '脚本路径',
+                formatter: function (value, row, index){
+                    return "<a href='https://code.byted.org/testproj/tiktok_proj/blob/develop/" + value + "' id='test_script' target='_blank' >" + value + "</a>"
+                },
+                width: 550,
+            },{
+                field: 'event',
+                title: 'EVENT',
+                align: 'center',
+                width: 150
+            },{
+                field: 'test_case_url',
+                title: '埋点url',
+                align: 'center',
+                width: 500,
+                formatter:function(value,row,index){
+                return "<a href='" + value + "' id='test_case_url' target='_blank' >" + value + "</a>"
+                }
+                },{
+                field: 'result',
+                title: '测试结果',
+                width: 100,
+                align:'center'
+            },{
+                field: 'create_time',
+                title: '时间日期',
+                width: 150
+            } ],
+            rowStyle:function(value,row,index){
+                return {css:{"font-family":"STHeiti",}}
+            }}
+            );
+        {#$('#table').bootstrapTable('refresh');#}
+        {#function actionFormatter(value, row, index) {#}
+        {#    var id = value;#}
+        {#    var result = "";#}
+        {#    result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";#}
+        {#    result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";#}
+        {#    result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";#}
+        {#    return result;#}
+
+
+
+    </script>
 {% endblock %}

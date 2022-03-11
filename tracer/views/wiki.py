@@ -1,13 +1,19 @@
 import datetime
+import os
 
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.csrf import csrf_exempt
 
 from tracer import models
 from tracer.form.project import ProjectModelForm
 from django.http import JsonResponse, HttpResponse
 
 from tracer.form.wiki import WikiModelForm
+from utils.tencent.cos import upload_file
+from utils.tracer.encrypt import uid
 
 
 def wiki(request, project_id):
@@ -125,15 +131,61 @@ def wiki_enable(request, project_id, wiki_id):
     #通知有编辑权限的人
 
 def wiki_collection(request, project_id, wiki_id):
+    '''
+    收藏文章
+    :param request:
+    :param project_id:
+    :param wiki_id:
+    :return:
+    '''
     exist = models.WikiJoin.objects.filter(user=request.user, wiki_id=wiki_id).exists()
     if not exist:
         models.WikiJoin.objects.create(user=request.user, wiki_id=wiki_id)
     models.WikiJoin.objects.filter(user=request.user, wiki_id=wiki_id).update(collection=True)
 
 def wiki_uncollection(request, project_id, wiki_id):
+    '''
+    取消收藏
+    :param request:
+    :param project_id:
+    :param wiki_id:
+    :return:
+    '''
     try:
         models.WikiJoin.objects.filter(user=request.user, wiki_id=wiki_id).update(collection=False)
     except:
         return HttpResponse("您尚未收藏此文章")
-def wiki_upload(request, project_id, wiki_id):
-    pass
+
+@xframe_options_sameorigin
+@csrf_exempt
+def wiki_upload(request, project_id):
+    '''markdown插件图片上传'''
+    result = {
+        'success': 0,
+        'message': None,
+        'url': None
+    }
+
+    img = request.FILES.get("editormd-image-file")
+    if not img:
+        result['message'] = "文件不存在"
+        return JsonResponse(result)
+
+    ext = img.name.rsplit('.')[-1]
+    key = "{}.{}".format(uid(str(request.user.pk)), ext)
+    #方式一，保存在本地media
+    # path = os.path.join(settings.MEDIA_ROOT, 'add_wiki_img', img.name)
+    # with open(path, 'wb') as f:
+    #     for line in img:
+    #         f.write(line)
+    #
+    # response = {"status": 0, "url": "/media/add_wiki_img/%s" % img.name}
+    # print('ok')
+    #方式二，上传通讯云存储
+    bucket = request.tracer.project.bucket
+    region = request.tracer.project.region
+    image_url = upload_file(bucket=bucket, file_path=img, key=key, region=region)
+    result['success'] = 1
+    result['url'] = image_url
+
+    return JsonResponse(result)

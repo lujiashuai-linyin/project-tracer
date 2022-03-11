@@ -39,14 +39,15 @@ def project_list(request):
                 project_dict['join'].append(item.project)
 
         form = ProjectModelForm(request)
-        return render(request, 'project_list.html', {'form': form, 'project_dict': project_dict})
+        all_project = models.Project.objects.all()
+        return render(request, 'project_list.html', {'form': form, 'project_dict': project_dict, 'all_project': all_project})
 
     #POST，对话框的ajax添加项目
     response = {'status': None, 'msg': None}
     form = ProjectModelForm(request, data=request.POST)
     if form.is_valid():
         response['status'] = True
-        #为项目创建一个桶
+        #为项目创建一个桶 & 跨域规则
         bucket = f"{request.user.pk}-{form.cleaned_data['name']}-{str(int(time.time()))}-1309571620"
         region = 'ap-beijing'
         create_bucket(bucket, region=region)
@@ -77,3 +78,15 @@ def project_unstar(request, project_type, project_id):
     if project_type == 'join':
         models.ProjectUser.objects.filter(project_id=project_id, user=request.user).update(star=False)
         return redirect('project_list')
+
+def project_application(request, project_id):
+    user = request.user
+    try:
+        exist = models.ProjectUser.objects.filter(project_id=project_id, user=user).exists()
+        if exist:
+            redirect('project_list')
+        else:
+            models.ProjectUser.objects.create(project_id=project_id, user=user)
+    except:
+        pass
+    return redirect('project_list')

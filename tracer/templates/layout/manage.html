@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{% static 'plugin/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <script type="text/javascript" src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/soul.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/flat-ui.min.css' %}"/>
     <style>
         .navbar-av {
             border-radius: 0;
@@ -42,10 +44,21 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {% all_project_list request %}
-            
                 {% if request.tracer.project %}
+                    {% all_project_list request %}
                     {% manage_menu_list request %}
+                {% else %}
+                    {% all_project_list request %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">项目申请<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% for item in all_project %}
+                                <li><a href="{% url 'project_application' project_id=item.id %}">{{ item.name }}</a></li>
+                            {% endfor %}
+                            <li><a href="">所有项目</a></li>
+                        </ul>
+
                 {% endif %}
             </ul>
 
@@ -68,11 +81,31 @@
         </div>
     </div>
 </nav>
+<div class="waifu" id="waifu">
+
+    <div class="waifu-tips" style="opacity: 1;"></div>
+    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+    <div class="waifu-tool">
+        <span class="fui-home"></span>
+        <span class="fui-chat"></span>
+        <span class="fui-eye"></span>
+        <span class="fui-user"></span>
+        <span class="fui-photo"></span>
+        <span class="fui-info-circle"></span>
+        <span class="fui-cross"></span>
+    </div>
+
+</div>
 {% block content %}{% endblock %}
 
 
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <scrip src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></scrip>
+{#    #博客插件#}
+<script src="{% static 'plugin/kanbanniang/live2d.js' %}"></script>
+<script src="{% static 'plugin/kanbanniang/soul.js' %}"></script>
+<script type="text/javascript">initModel()</script>
+
 {% block js %}{% endblock %}
 </body>
 </html>

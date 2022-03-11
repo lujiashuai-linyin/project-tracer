@@ -9,4 +9,4 @@ django.setup()
 
 from tracer import models
 
-models.UserInfo.objects.create(username='卢嘉帅', email='690067698@qq.com', telephone='13763430435', password='xianjian1998')
+models.Project.objects.filter(name='TikTok', creator=2).delete()
