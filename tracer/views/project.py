@@ -7,6 +7,7 @@ from tracer.form.project import ProjectModelForm
 from django.http import JsonResponse
 
 from utils.tencent.cos import create_bucket
+from xpinyin import Pinyin
 
 def project_list(request):
     # print(request.tracer.user.username)
@@ -48,7 +49,8 @@ def project_list(request):
     if form.is_valid():
         response['status'] = True
         #为项目创建一个桶 & 跨域规则
-        bucket = f"{request.user.pk}-{form.cleaned_data['name']}-{str(int(time.time()))}-1309571620"
+
+        bucket = f"tracer-{request.user.pk}-{form.instance.id}-{str(int(time.time()))}-1309571620"
         region = 'ap-beijing'
         create_bucket(bucket, region=region)
 

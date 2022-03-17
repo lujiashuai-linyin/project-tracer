@@ -9,4 +9,4 @@ django.setup()
 
 from tracer import models
 
-models.Project.objects.filter(name='TikTok', creator=2).delete()
+models.Project.objects.all().delete()
