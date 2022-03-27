@@ -113,6 +113,7 @@ def wiki_edit(request, project_id, wiki_id):
         # models.Wiki.objects.filter(id=wiki_id, project_id=project_id).update(last_edit_user=request.user, last_edit_time=last_edit_time, depth=depth)
         base_url = reverse('wiki', kwargs={'project_id': project_id})
         url = base_url + "?wiki_id=" + wiki_id
+        # print(url)
         return redirect(url)
     # return render(request, 'wiki_add.html', {'form': form})
 

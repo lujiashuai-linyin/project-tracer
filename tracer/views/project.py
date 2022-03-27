@@ -58,7 +58,11 @@ def project_list(request):
         form.instance.region = region
         form.instance.creator = request.user
         #创建项目
-        form.save()
+        instance = form.save()
+        issue_type_list = []
+        for item in models.IssuesType.PROJECT_INIT_LIST:
+            issue_type_list.append(models.IssuesType(project=instance, title=item))
+        models.IssuesType.objects.bulk_create(issue_type_list)
         return JsonResponse(response)
 
     else:

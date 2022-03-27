@@ -51,6 +51,7 @@ urlpatterns = [
         re_path(r'^issues/change/(?P<issues_id>\d+)/$', issues.issues_change, name='issues_change'),
         re_path(r'^issues/invite/url/$', issues.invite_url, name='invite_url'),
 
+        re_path(r'^dashboard/$', project_detail.dashboard, name='dashboard'),
         re_path(r'^project/detail/$', project_detail.project_detail, name='project_detail'),
         re_path(r'^dashboard/issues/chart/$', project_detail.issues_chart, name='issues_chart'),
         re_path(r'^project/test_result/$', project_detail.test_result, name='test_result'),
@@ -60,5 +61,6 @@ urlpatterns = [
         re_path(r'^statistics/project/user/$', statistics.statistics_project_user, name='statistics_project_user'),
 
     ], None)),
+    re_path(r'^invite/join/(?P<code>\w+)/$', issues.invite_join, name='invite_join'),
 
 ]

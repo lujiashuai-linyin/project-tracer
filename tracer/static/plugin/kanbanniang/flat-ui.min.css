@@ -781,39 +781,39 @@ a.thumbnail:hover,a.thumbnail:focus,a.thumbnail.active {
     color: #34495e
 }
 
-.btn {
-    padding: 10px 15px;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.4;
-    border: none;
-    border-radius: 4px;
-    -webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;
-    transition: border .25s linear,color .25s linear,background-color .25s linear;
-    -webkit-font-smoothing: subpixel-antialiased
-}
+/*.btn {*/
+/*    padding: 10px 15px;*/
+/*    font-size: 15px;*/
+/*    font-weight: 400;*/
+/*    line-height: 1.4;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    -webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;*/
+/*    transition: border .25s linear,color .25s linear,background-color .25s linear;*/
+/*    -webkit-font-smoothing: subpixel-antialiased*/
+/*}*/
 
-.btn:hover,.btn:focus {
-    color: #fff;
-    outline: 0
-}
+/*.btn:hover,.btn:focus {*/
+/*    color: #fff;*/
+/*    outline: 0*/
+/*}*/
 
-.btn:active,.btn.active {
-    outline: 0;
-    box-shadow: none
-}
+/*.btn:active,.btn.active {*/
+/*    outline: 0;*/
+/*    box-shadow: none*/
+/*}*/
 
-.btn:focus:active {
-    outline: 0
-}
+/*.btn:focus:active {*/
+/*    outline: 0*/
+/*}*/
 
-.btn.disabled,.btn[disabled],fieldset[disabled] .btn {
-    color: rgba(255,255,255,.75);
-    cursor: not-allowed;
-    background-color: #bdc3c7;
-    filter: alpha(opacity=70);
-    opacity: .7
-}
+/*.btn.disabled,.btn[disabled],fieldset[disabled] .btn {*/
+/*    color: rgba(255,255,255,.75);*/
+/*    cursor: not-allowed;*/
+/*    background-color: #bdc3c7;*/
+/*    filter: alpha(opacity=70);*/
+/*    opacity: .7*/
+/*}*/
 
 .btn [class^=fui-] {
     position: relative;
@@ -831,10 +831,10 @@ a.thumbnail:hover,a.thumbnail:focus,a.thumbnail.active {
     top: 2px
 }
 
-.btn-default {
-    color: #fff;
-    background-color: #bdc3c7
-}
+/*.btn-default {*/
+/*    color: #fff;*/
+/*    background-color: #bdc3c7*/
+/*}*/
 
 .btn-default:hover,.btn-default.hover,.btn-default:focus,.btn-default:active,.btn-default.active,.open>.dropdown-toggle.btn-default {
     color: #fff;
@@ -2395,14 +2395,14 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 }
 
 @media (max-width:767px) {
-    .pagination {
-        height: 41px;
-        padding: 0 55px 0 52px;
-        overflow: auto;
-        white-space: nowrap;
-        border-radius: 6px
-    }
-}
+/*    .pagination {*/
+/*        height: 41px;*/
+/*        padding: 0 55px 0 52px;*/
+/*        overflow: auto;*/
+/*        white-space: nowrap;*/
+/*        border-radius: 6px*/
+/*    }*/
+/*}*/
 
 .pagination li {
     display: inline-block;

@@ -5,13 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <script  type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script  type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'plugin/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'plugin/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <script type="text/javascript" src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/manage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/soul.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/flat-ui.min.css' %}"/>
+{#    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/flat-ui.min.css' %}"/>#}
     <style>
         .navbar-av {
             border-radius: 0;
@@ -99,13 +99,14 @@
 {% block content %}{% endblock %}
 
 
-<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<scrip src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></scrip>
-{#    #博客插件#}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'plugin/kanbanniang/live2d.js' %}"></script>
 <script src="{% static 'plugin/kanbanniang/soul.js' %}"></script>
 <script type="text/javascript">initModel()</script>
-
+<script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+<script>
+    $('.dropdown-toggle').dropdown();
+</script>
 {% block js %}{% endblock %}
 </body>
 </html>
