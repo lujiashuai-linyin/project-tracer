@@ -28,6 +28,7 @@ class AuthMiddleware(MiddlewareMixin):
         1. 获取当用户访问的URL
         2. 检查URL是否在白名单中，如果再则可以继续向后访问，如果不在则进行判断是否已登录
         """
+        # print(request.path_info)
         if request.path_info in settings.WHITE_REGEX_URL_LIST:
             return
 
@@ -65,6 +66,8 @@ class AuthMiddleware(MiddlewareMixin):
 
         project_id = kwargs.get('project_id')
         # 是否是我创建的
+        if request.path_info in settings.WHITE_REGEX_URL_LIST:
+            return
         project_object = models.Project.objects.filter(creator=request.user, id=project_id).first()
         if project_object:
             # 是我创建的项目的话，我就让他通过

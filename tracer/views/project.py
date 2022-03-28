@@ -47,14 +47,15 @@ def project_list(request):
     response = {'status': None, 'msg': None}
     form = ProjectModelForm(request, data=request.POST)
     if form.is_valid():
+        print()
         response['status'] = True
         #为项目创建一个桶 & 跨域规则
 
-        bucket = f"tracer-{request.user.pk}-{form.instance.id}-{str(int(time.time()))}-1309571620"
+        bucket = f"tracer-{request.user.pk}-{str(int(time.time()))}-1309571620"
         region = 'ap-beijing'
         create_bucket(bucket, region=region)
 
-        form .instance.bucket = bucket
+        form.instance.bucket = bucket
         form.instance.region = region
         form.instance.creator = request.user
         #创建项目

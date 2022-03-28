@@ -2,198 +2,291 @@
 {% load static %}
 {% block title %}{{ request.tracer.project.name }}{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'plugin/bootstrap-table-master/dist/bootstrap-table.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/bootstrap-select/css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/select2/css/select2.min.css' %}">
+
     <style>
+        .account {
+            width: 1500px;
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #f0f0f0;
+            padding: 10px 30px 30px 30px;
+            -webkit-box-shadow: 5px 10px 10px rgba(0, 0, 0, .05);
+            box-shadow: 5px 10px 10px rgba(0, 0, 0, .05);
+        }
+
+        .test-result-form {
+            text-align: center;
+        }
         .form-group {
-            margin-left: 30px;
+            margin-left: 10px;
         }
-        .fixed-table-toolbar {
-            float:right;
+        #form {
+            margin-top: 20px;
         }
-        .btn{
-            nav-right: auto;
-        }
-        #toolbar {
-            right: auto;
-        }
-        .table>thead>tr>th { text-align: center;}
-
-        .table-right > tbody > tr > td.label-left {
-            width: 90px;
-        }
-
-        .table-right > tbody > tr > td {
-            border: 0;
-        }
-
-        .status-count {
-            text-align: center;
+        .pagination {
+            float: right;
             margin-top: 10px;
-            margin-bottom: 30px;
-            font-size: 14px;
         }
-
-        .status-count .count {
-            font-size: 25px;
-        }
-
-        .status-count a {
-            text-decoration: none;
-        }
-
-        .user-item .title {
-            margin-bottom: 20px;
-        }
-
-        .user-item .avatar, .top-10 .avatar {
-            float: left;
-            margin-right: 10px;
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background-color: #304659;
-            color: white;
+        .platform {
             text-align: center;
-            line-height: 30px;
-            border-radius: 50%;
+        }
+        .event-head {
+            text-align: center;
+        }
+        .result {
+            width: 80px;
+            text-align: center;
+        }
+        .results-list .version {
+            text-align: center;
+        }
+        .results-list .test-path {
+            text-align: center;
+        }
+        .test_path {
+            text-align: left;
+        }
+        .results-list .task-id {
+            text-align: center;
+        }
+        .results-list .case-url {
+            text-align: center;
+        }
+        .results-list .create-time {
+            width: 180px;
+            text-align: center;
         }
 
-        .user-item .text {
-            line-height: 30px;
-        }
-
-        .top-10 .avatar {
-            margin-right: 0;
-        }
-
-        .top-10 td {
-            padding: 5px 10px;
-        }
-
-        .top-10 .table > tbody > tr > td {
-            border-top: 0;
-            border-bottom: 1px solid #ddd;
-        }
     </style>
 {% endblock %}
 
 {% block content %}
     <form id="form" class="form-inline" role="form">
         {% for field in form %}
-            <div class="form-group">
-                <label for="{{ field.auto_id }}" class="filter-control">{{ field.label }}</label>
-                {{ field }}<span class="error"></span>
-            </div>
+            {% if field.name == 'datetime' %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}" class="filter-control">{{ field.label }}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon2">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                        {{ field }}
+                    </div>
+                    <span class="error"></span>
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}" class="filter-control">{{ field.label }}</label>
+                    {{ field }}<span class="error"></span>
+                </div>
+            {% endif %}
         {% endfor %}
-        <input type="button"  value="查找" id="name">
+        <input type="button" class="btn btn-success btn-sm"  value="查找" id="search">
     </form>
-    <div class="result_table container-fluid">
-        <table id="table" class="table table-border" style="table-layout:fixed;word-break:break-all;" data-query-params="queryParams">
-
-        </table>
+    <div class="account">
+        <div class="test-result-form">
+    <table class="table" border="1" style="border-collapse:collapse;">
+        <tbody class="results-list">
+            <tr class="heard">
+                <th class="platform">平台</th>
+                <th class="version">版本详情</th>
+                <th class="task-id">任务id</th>
+                <th class="test-path">脚本路径</th>
+                <th class="event-head">EVENT</th>
+                <th class="case-url">埋点url</th>
+                <th class="th">测试结果</th>
+                <th class="create-time">收录时间</th>
+            </tr>
+        {% for item in issues_object_list %}
+            <tr>
+                <td class="platform">
+                    <div>{{ item.get_platform_display }}</div>
+                </td>
+                <td class="version">
+                    <div>
+                        {{ item.version_detail }}
+                    </div>
+                </td>
+                <td class="task_id">
+                    <div>{{ item.task_id }}</div>
+                </td>
+                <td class="test_path">
+                    <div>{{ item.test_path }}</div>
+                </td>
+                <td class="event">
+                    <div>{{ item.event }}</div>
+                </td>
+                <td class="test_case_url">
+                        <a href="{{ item.test_case_url }}">
+                        {{ item.case_id }}
+                        </a>
+                </td>
+                <td class="result">
+                    <div>{{ item.result }}</div>
+                </td>
+                <td class="create-time">
+                    <div>{{ item.create_time|date:"Y年m月d日 H:i" }}</div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav id="page" aria-label="...">
+        <ul class="pagination" style="margin-top: 0">
+            {{ page_html|safe }}
+        </ul>
+    </nav>
+    </div>
     </div>
 
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script src="{% static 'plugin/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-select/js/i18n/defaults-zh_CN.min.js' %}"></script>
+    <script src="{% static 'plugin/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugin/select2/js/i18n/zh-CN.js' %}"></script>
 
-    <script src="{% static 'plugin/bootstrap-table-master/dist/bootstrap-table.js' %}"></script>
-    <script src="{% static 'plugin/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js' %}"></script>
     <script>
+        var RESULT_SEARCH = "{% url 'result_search' project_id=request.tracer.project.id %}";
 
-        {#var RESULT_URL = {% url 'test_result' project_id=request.tracer.project.id %}#}
-
-        $('#table').bootstrapTable({
-            url: '{% url 'test_result' project_id=request.tracer.project.id %}',        // 表格数据来源
-            method: "get",  //使用get请求到服务器获取数
-            dataType: "json",
-            toolbar: '#toolbar',                //工具按钮用哪个容器
-            striped: true,                      //是否显示行间隔色
-            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            pagination: true,                   //是否显示分页（*）
-            sortable: true,                     //是否启用排序
-            sortOrder: "asc",                   //排序方式
-            {#queryParams: oTableInit.queryParams,//传递参数（*）#}
-            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-            pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 10,                       //每页的记录行数（*）
-            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-            strictSearch: true,
-            showColumns: false,                  //是否显示所有的列
-            showRefresh: false,                  //是否显示刷新按钮
-            minimumCountColumns: 2,             //最少允许的列数
-            clickToSelect: false,                //是否启用点击选中行
-            {#height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度#}
-            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
-            cardView: false,                    //是否显示详细视图
-            detailView: false,                   //是否显示父子表
-            queryParamsType : "total",
-            {#queryParams: function(params){#}
-            {#    return {#}
-            {#        task_id: 305930#}
-            {#    };},#}
-            columns: [
-                {#{field:'column',#}
-                {#    checkbox:false},#}
-                {
-                    field: 'platform',
-                    title: '平台'
-                }, {
-                    field: 'version_detail',
-                    title: '版本详情',
-                    width:100
-                }, {
-                    field: 'task_id',
-                    title: '任务id',
-                    align: 'center'
-                },{
-                    field: 'test_path',
-                    title: '脚本路径',
-                    formatter: function (value, row, index){
-                        return "<a href='https://code.byted.org/testproj/tiktok_proj/blob/develop/" + value + "' id='test_script' target='_blank' >" + value + "</a>"
-                    },
-                    width: 550,
-                },{
-                    field: 'event',
-                    title: 'EVENT',
-                    align: 'center',
-                    width: 150
-                },{
-                    field: 'test_case_url',
-                    title: '埋点url',
-                    align: 'center',
-                    width: 500,
-                    formatter:function(value,row,index){
-                        return "<a href='" + value + "' id='test_case_url' target='_blank' >" + value + "</a>"
-                    }
-                },{
-                    field: 'result',
-                    title: '测试结果',
-                    width: 100,
-                    align:'center'
-                },{
-                    field: 'create_time',
-                    title: '时间日期',
-                    width: 150
-                } ],
-            rowStyle:function(value,row,index){
-                return {css:{"font-family":"STHeiti",}}
-            }}
-        );
-
-        function queryParams() {
-            var params = $('#form').serialize();                    //获取文本框的值
-
-            return params;
-        }
-
-        $('#name').click(function () {
-            $('#table').bootstrapTable('refresh')
+        $(function () {
+            searchClick();
+            initDatePicker();
         })
 
+        /*
+        添加对话框：初始化时间选择
+         */
+        function initDatePicker() {
+
+            $('#id_datetime').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0',
+                language: "zh-CN",
+                autoclose: true
+            });
+        }
+
+        function searchClick(){
+            $('#search').click(function (){
+                $.ajax({
+                    url: RESULT_SEARCH,
+                    type: 'GET',
+                    data: $('#form').serialize(),
+                    success: function (data){
+                        console.log('ok')
+                        location.href = data.url
+                    }
+                })
+            })
+        }
     </script>
+    {#    <script src="{% static 'plugin/bootstrap-table-master/dist/bootstrap-table.js' %}"></script>#}
+    {#    <script src="{% static 'plugin/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js' %}"></script>#}
+    {#    <script>#}
+    {##}
+    {#var RESULT_URL = {% url 'test_result' project_id=request.tracer.project.id %}#}
+    {##}
+    {#$('#table').bootstrapTable({#}
+    {#    url: '{% url 'test_result' project_id=request.tracer.project.id %}',        // 表格数据来源#}
+    {#    method: "get",  //使用get请求到服务器获取数#}
+    {#    dataType: "json",#}
+    {#    toolbar: '#toolbar',                //工具按钮用哪个容器#}
+    {#    striped: true,                      //是否显示行间隔色#}
+    {#    cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）#}
+    {#    pagination: false,                   //是否显示分页（*）#}
+    {#    sortable: true,                     //是否启用排序#}
+    {#    sortOrder: "asc",                   //排序方式#}
+    {#queryParams: oTableInit.queryParams,//传递参数（*）#}
+    {#    sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）#}
+    {#    pageNumber: 1,                       //初始化加载第一页，默认第一页#}
+    {#    pageSize: 10,                       //每页的记录行数（*）#}
+    {#    pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）#}
+    {#    search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大#}
+    {#    strictSearch: true,#}
+    {#    showColumns: false,                  //是否显示所有的列#}
+    {#    showRefresh: false,                  //是否显示刷新按钮#}
+    {#    minimumCountColumns: 2,             //最少允许的列数#}
+    {#    clickToSelect: false,                //是否启用点击选中行#}
+    {#height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度#}
+    {#    uniqueId: "ID",                     //每一行的唯一标识，一般为主键列#}
+    {#    showToggle: false,                    //是否显示详细视图和列表视图的切换按钮#}
+    {#    cardView: false,                    //是否显示详细视图#}
+    {#    detailView: false,                   //是否显示父子表#}
+    {#    queryParamsType : "total",#}
+    {#queryParams: function(params){#}
+    {#    return {#}
+    {#        task_id: 305930#}
+    {#    };},#}
+    {#    columns: [#}
+    {#{field:'column',#}
+    {#    checkbox:false},#}
+    {#        {#}
+    {#            field: 'platform',#}
+    {#            title: '平台'#}
+    {#        }, {#}
+    {#            field: 'version_detail',#}
+    {#            title: '版本详情',#}
+    {#            width:100#}
+    {#        }, {#}
+    {#            field: 'task_id',#}
+    {#            title: '任务id',#}
+    {#            align: 'center'#}
+    {#        },{#}
+    {#            field: 'test_path',#}
+    {#            title: '脚本路径',#}
+    {#            formatter: function (value, row, index){#}
+    {#                return "<a href='https://code.byted.org/testproj/tiktok_proj/blob/develop/" + value + "' id='test_script' target='_blank' >" + value + "</a>"#}
+    {#            },#}
+    {#            width: 550,#}
+    {#        },{#}
+    {#            field: 'event',#}
+    {#            title: 'EVENT',#}
+    {#            align: 'center',#}
+    {#            width: 150#}
+    {#        },{#}
+    {#            field: 'test_case_url',#}
+    {#            title: '埋点url',#}
+    {#            align: 'center',#}
+    {#            width: 500,#}
+    {#            formatter:function(value,row,index){#}
+    {#                return "<a href='" + value + "' id='test_case_url' target='_blank' >" + value + "</a>"#}
+    {#            }#}
+    {#        },{#}
+    {#            field: 'result',#}
+    {#            title: '测试结果',#}
+    {#            width: 100,#}
+    {#            align:'center'#}
+    {#        },{#}
+    {#            field: 'create_time',#}
+    {#            title: '时间日期',#}
+    {#            width: 150#}
+    {#        } ],#}
+    {#    rowStyle:function(value,row,index){#}
+    {#        return {css:{"font-family":"STHeiti",}}#}
+    {#    }}#}
+    {#);#}
+    {##}
+    {#function queryParams() {#}
+    {#    var params = $('#form').serialize();                    //获取文本框的值#}
+    {##}
+    {#    return params;#}
+    {#       #}
+    {##}
+    {#$('#name').click(function () {#}
+    {#    $('#table').bootstrapTable('refresh')#}
+    {#      #}
+    {##}
+    {#    </script>#}
 {% endblock %}
 
 {#    customSearch:function customSearch(text) { //搜索--以第一列为导向 text为搜索框内输入的值#}

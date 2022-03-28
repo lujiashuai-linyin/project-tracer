@@ -3,7 +3,7 @@ from django.urls import path, re_path, include
 from django.views.static import serve
 
 from mysite import settings
-from tracer.views import account, file, setting, issues, project_detail, statistics
+from tracer.views import account, file, setting, issues, project_detail, statistics, navigation
 from tracer.views import project
 from tracer.views import wiki
 
@@ -53,8 +53,9 @@ urlpatterns = [
 
         re_path(r'^dashboard/$', project_detail.dashboard, name='dashboard'),
         re_path(r'^project/detail/$', project_detail.project_detail, name='project_detail'),
+        re_path(r'^result/save/$', project_detail.result_save, name='result_save'),
+        re_path(r'^result/search/$', project_detail.result_search, name='result_search'),
         re_path(r'^dashboard/issues/chart/$', project_detail.issues_chart, name='issues_chart'),
-        re_path(r'^project/test_result/$', project_detail.test_result, name='test_result'),
 
         re_path(r'^statistics/$', statistics.statistics, name='statistics'),
         re_path(r'^statistics/priority/$', statistics.statistics_priority, name='statistics_priority'),
@@ -62,5 +63,6 @@ urlpatterns = [
 
     ], None)),
     re_path(r'^invite/join/(?P<code>\w+)/$', issues.invite_join, name='invite_join'),
+    re_path(r'navigation/$', navigation.list_jump, name='list_jump'),
 
 ]

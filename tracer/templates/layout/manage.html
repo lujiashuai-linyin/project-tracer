@@ -11,7 +11,7 @@
     <script type="text/javascript" src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/manage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/soul.css' %}"/>
-{#    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/flat-ui.min.css' %}"/>#}
+    <link rel="stylesheet" type="text/css" href="{% static 'plugin/kanbanniang/flat-ui-2.min.css' %}"/>
     <style>
         .navbar-av {
             border-radius: 0;
@@ -63,10 +63,10 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">工作台</a></li>
-                <li><a href="#">日历</a></li>
-                <li><a href="#"> <i class="fa fa-bell-o" aria-hidden="true"></i> </a></li>
-                <li><a href="#"> <i class="fa fa-bookmark" aria-hidden="true"></i> </a></li>
+                <li><a href="{% url 'list_jump' %}">工作台</a></li>
+                <li><a href="{% url 'list_jump' %}">日历</a></li>
+                <li><a href="{% url 'list_jump' %}"> <i class="fa fa-bell-o" aria-hidden="true"></i> </a></li>
+                <li><a href="{% url 'list_jump' %}"> <i class="fa fa-bookmark" aria-hidden="true"></i> </a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -81,21 +81,23 @@
         </div>
     </div>
 </nav>
-<div class="waifu" id="waifu">
+{% if request.user.username == 'linyin' %}
+    <div class="waifu" id="waifu">
 
-    <div class="waifu-tips" style="opacity: 1;"></div>
-    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
-    <div class="waifu-tool">
-        <span class="fui-home"></span>
-        <span class="fui-chat"></span>
-        <span class="fui-eye"></span>
-        <span class="fui-user"></span>
-        <span class="fui-photo"></span>
-        <span class="fui-info-circle"></span>
-        <span class="fui-cross"></span>
+        <div class="waifu-tips" style="opacity: 1;"></div>
+        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+
     </div>
-
-</div>
+{% endif %}
 {% block content %}{% endblock %}
 
 

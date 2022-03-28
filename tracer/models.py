@@ -137,11 +137,12 @@ class TikTokAutoTest(models.Model):
     test_path = models.CharField(verbose_name='脚本路径', null=True, blank=True, max_length=300)
     event = models.CharField(verbose_name='EVENT', max_length=16)
     test_case_url = models.CharField(verbose_name='埋点url', max_length=300)
+    case_id = models.IntegerField(verbose_name='case_id', null=True, blank=True,)
     result = models.BooleanField(verbose_name='测试结果', default=False)
     create_time = models.DateTimeField(verbose_name='收录时间', auto_now_add=True)
 
     class Meta:
-        unique_together = ('task_id', 'test_case_url')
+        unique_together = ('task_id', 'case_id')
 
 class FileRepository(models.Model):
     """ 文件库 """

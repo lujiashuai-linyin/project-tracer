@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import re
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-b-&707(=wwm!hxs+41g##_o*4en!&a$4*oc3x^!9yte(9a#-n^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.76.97.215", "127.0.0.1"]
+ALLOWED_HOSTS = ["10.76.97.215", "127.0.0.1", "192.168.83.64"]
 
 
 # Application definition
@@ -171,7 +172,11 @@ WHITE_REGEX_URL_LIST = [
     "/index/",
     "/price/",
     '/register_valid_code/',
+    '/navigation/',
+    '/manage/10/result/save/'
 ]
+
+CASE_BASE_URL = "https://bytest.bytedance.net/next/projects/66666669/test-case/case/manual?"
 
 try:
     from .local_settings import *
