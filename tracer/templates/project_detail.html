@@ -27,6 +27,7 @@
         }
         #form {
             margin-top: 20px;
+            text-align: center;
         }
         .pagination {
             float: right;
@@ -147,9 +148,9 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'plugin/editor-md/editormd.min.js' %}"></script>
     <script src="{% static 'plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
     <script src="{% static 'plugin/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
-    <script src="{% static 'plugin/select2/js/select2.min.js' %}"></script>
     <script src="{% static 'plugin/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
     <script src="{% static 'plugin/bootstrap-select/js/i18n/defaults-zh_CN.min.js' %}"></script>
     <script src="{% static 'plugin/select2/js/select2.min.js' %}"></script>
@@ -161,8 +162,12 @@
         $(function () {
             searchClick();
             initDatePicker();
+            initDropdown();
         })
 
+        function initDropdown(){
+            $('.dropdown-toggle').dropdown();
+        }
         /*
         添加对话框：初始化时间选择
          */

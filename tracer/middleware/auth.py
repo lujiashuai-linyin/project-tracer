@@ -67,7 +67,11 @@ class AuthMiddleware(MiddlewareMixin):
         project_id = kwargs.get('project_id')
         # 是否是我创建的
         if request.path_info in settings.WHITE_REGEX_URL_LIST:
-            return
+            project_object = models.Project.objects.filter(id=project_id).first()
+            if project_object:
+                # 是我创建的项目的话，我就让他通过
+                request.tracer.project = project_object
+                return
         project_object = models.Project.objects.filter(creator=request.user, id=project_id).first()
         if project_object:
             # 是我创建的项目的话，我就让他通过

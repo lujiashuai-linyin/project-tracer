@@ -46,33 +46,32 @@ def project_detail(request, project_id):
     # 获取request请求中的筛选参数,自创搜索引擎，还算牛掰
     kwargs = {'project_id': project_id}
 
-    task_id = request.GET.get('task_id')
+    task_id = request.GET.getlist('task_id')
 
     if task_id:
+        kwargs.update({'task_id__in': task_id})
 
-        kwargs.update({'task_id': int(task_id)})
-
-    event = request.GET.get('event')
+    event = request.GET.getlist('event')
     if event:
-        kwargs.update({'event': event})
-    platform = request.GET.get('platform')
+        kwargs.update({'event__in': event})
+    platform = request.GET.getlist('platform')
     if platform:
-        kwargs.update({'platform': platform})
-    version_detail = request.GET.get('version_detail')
+        kwargs.update({'platform__in': platform})
+    version_detail = request.GET.getlist('version_detail')
     if version_detail:
-        kwargs.update({'version_detail': version_detail})
-    test_path = request.GET.get('test_path')
+        kwargs.update({'version_detail__in': version_detail})
+    test_path = request.GET.getlist('test_path')
     if test_path:
-        kwargs.update({'test_path': test_path})
-    test_case_url = request.GET.get('test_case_url')
+        kwargs.update({'test_path__in': test_path})
+    test_case_url = request.GET.getlist('test_case_url')
     if test_case_url:
-        kwargs.update({'test_case_url': test_case_url})
-    result = request.GET.get('result')
+        kwargs.update({'test_case_url__in': test_case_url})
+    result = request.GET.getlist('result')
     if result:
-        kwargs.update({'result': result})
-    create_time = request.GET.get('create_time')
+        kwargs.update({'result__in': result})
+    create_time = request.GET.getlist('create_time')
     if create_time:
-        kwargs.update({'create_time': create_time})
+        kwargs.update({'create_time__in': create_time})
 
     queryset = models.TikTokAutoTest.objects.filter(**kwargs).order_by('-id').all()
 

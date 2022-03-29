@@ -173,7 +173,8 @@ WHITE_REGEX_URL_LIST = [
     "/price/",
     '/register_valid_code/',
     '/navigation/',
-    '/manage/10/result/save/'
+    '/manage/10/result/save/',
+    '/manage/10/project/detail/',
 ]
 
 CASE_BASE_URL = "https://bytest.bytedance.net/next/projects/66666669/test-case/case/manual?"
