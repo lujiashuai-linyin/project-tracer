@@ -209,7 +209,7 @@ def issues_change(request, project_id, issues_id):
             reply_type=1,
             issues=issues_object,
             content=content,
-            creator=request.tracer.user,
+            creator=request.user,
         )
         new_reply_dict = {
             'id': new_object.id,
@@ -331,13 +331,13 @@ def invite_url(request, project_id):
         2. 验证码保存到数据库
         3. 限制：只有创建者才能邀请
         """
-        if request.tracer.user != request.tracer.project.creator:
+        if request.user != request.tracer.project.creator:
             form.add_error('period', "无权创建邀请码")
             return JsonResponse({'status': False, 'error': form.errors})
-        random_invite_code = uid(request.tracer.user.telephone)
+        random_invite_code = uid(request.user.pk)
         form.instance.project = request.tracer.project
         form.instance.code = random_invite_code
-        form.instance.creator = request.tracer.user
+        form.instance.creator = request.user
         form.save()
 
         # 将验邀请码返回给前端，前端页面上展示出来。

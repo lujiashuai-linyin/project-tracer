@@ -164,6 +164,7 @@ EMAIL_USE_SSL = True
 LOGIN_URL = '/login/'
 
 WHITE_REGEX_URL_LIST = [
+    "/bytedance/",
     "/register/",
     "/send/sms/",
     "/login/",
@@ -175,6 +176,7 @@ WHITE_REGEX_URL_LIST = [
     '/navigation/',
     '/manage/10/result/save/',
     '/manage/10/project/detail/',
+    '/manage/10/result/search/'
 ]
 
 CASE_BASE_URL = "https://bytest.bytedance.net/next/projects/66666669/test-case/case/manual?"

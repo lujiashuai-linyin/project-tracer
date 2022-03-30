@@ -46,8 +46,11 @@ def project_detail(request, project_id):
     # 获取request请求中的筛选参数,自创搜索引擎，还算牛掰
     kwargs = {'project_id': project_id}
 
-    task_id = request.GET.getlist('task_id')
-
+    task_id_list = request.GET.getlist('task_id')
+    if len(task_id_list) == 1:
+        task_id = list(task_id_list[0].split(','))
+    else:
+        task_id = task_id_list
     if task_id:
         kwargs.update({'task_id__in': task_id})
 

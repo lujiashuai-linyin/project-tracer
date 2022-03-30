@@ -176,7 +176,7 @@ def file_post(request, project_id):
         # 校验通过：数据写入到数据库
         data_dict = form.cleaned_data
         data_dict.pop('etag')
-        data_dict.update({'project': request.tracer.project, 'file_type': 1, 'update_user': request.tracer.user})
+        data_dict.update({'project': request.tracer.project, 'file_type': 1, 'update_user': request.user})
         instance = models.FileRepository.objects.create(**data_dict)
 
         # 项目的已使用空间：更新 (data_dict['file_size'])

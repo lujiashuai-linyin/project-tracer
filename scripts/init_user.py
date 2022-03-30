@@ -9,4 +9,4 @@ django.setup()
 
 from tracer import models
 
-models.Project.objects.all().delete()
+models.PricePolicy.objects.create(category=3, title='字节专用版', price=100000, project_num=20, project_member=2000, project_space=10, per_file_size=2048, )

@@ -10,7 +10,6 @@ from tracer import models
 class Tracer(object):
 
     def __init__(self):
-        self.user = None
         self.price_policy = None
         self.project = None
 
@@ -20,9 +19,6 @@ class AuthMiddleware(MiddlewareMixin):
         """ 如果用户已登录，则request中赋值 """
 
         request.tracer = Tracer()
-        user_id = request.session.get('_auth_user_id', 0)
-        user_object = models.UserInfo.objects.filter(nid=user_id).first()
-        request.tracer.user = user_object
         # 白名单：没有登录都可以访问的URL
         """
         1. 获取当用户访问的URL
@@ -48,7 +44,7 @@ class AuthMiddleware(MiddlewareMixin):
 
         #方式二：免费的额度存储配置文件,此方法不需要在试图函数创建订单记录
         #获取当前用户id值最大（最近交易记录）
-        _object = models.Transaction.objects.filter(user=user_object, status=2).order_by('-id').first()
+        _object = models.Transaction.objects.filter(user=request.user, status=2).order_by('-id').first()
 
         if not _object:
             request.tracer.price_policy = models.PricePolicy.objects.filter(category=1, title='个人免费版').first()
@@ -69,7 +65,6 @@ class AuthMiddleware(MiddlewareMixin):
         if request.path_info in settings.WHITE_REGEX_URL_LIST:
             project_object = models.Project.objects.filter(id=project_id).first()
             if project_object:
-                # 是我创建的项目的话，我就让他通过
                 request.tracer.project = project_object
                 return
         project_object = models.Project.objects.filter(creator=request.user, id=project_id).first()

@@ -14,5 +14,5 @@ def md5(string):
 
 
 def uid(string):
-    data = "{}-{}".format(str(uuid.uuid4()), string)
+    data = "{}-{}".format(str(uuid.uuid4()), str(string))
     return md5(data)

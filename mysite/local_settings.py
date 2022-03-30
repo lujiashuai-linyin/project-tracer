@@ -37,3 +37,5 @@ CACHES = {
 }
     }
 }
+BYTEDANCE_USERNAME = 'bytedance'
+BYTEDANCE_PASSWORD = 'xianjian1998'

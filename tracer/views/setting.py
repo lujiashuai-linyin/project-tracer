@@ -16,7 +16,7 @@ def delete(request, project_id):
         return render(request, 'setting_delete.html', {'error': "项目名错误"})
 
     # 项目名写对了则删除（只有创建者可以删除）
-    if request.tracer.user != request.tracer.project.creator:
+    if request.user != request.tracer.project.creator:
         return render(request, 'setting_delete.html', {'error': "只有项目创建者可删除项目"})
 
     # 1. 删除桶
@@ -27,6 +27,6 @@ def delete(request, project_id):
     #       - 项目删除
 
     delete_bucket(request.tracer.project.bucket, request.tracer.project.region)
-    models.Project.objects.filter(name=project_name, creator=request.tracer.user).delete()
+    models.Project.objects.filter(name=project_name, creator=request.user).delete()
 
     return redirect("project_list")

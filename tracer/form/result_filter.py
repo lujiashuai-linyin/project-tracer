@@ -9,6 +9,7 @@ from tracer.form.bootstrap import BootStrapForm
 class ResultFilter(BootStrapForm, forms.ModelForm):
     datetime = forms.DateTimeField(label='收录时间')
     result = forms.ChoiceField(choices=(('', '请选择'), ('1', 'Yes'), ('0', 'No')))
+    task_id = forms.CharField(label="任务id")
     class Meta:
         model = models.TikTokAutoTest
         fields = ['platform', 'version_detail', 'task_id', 'test_path', 'event', 'test_case_url', 'result']

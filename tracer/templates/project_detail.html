@@ -183,10 +183,28 @@
 
         function searchClick(){
             $('#search').click(function (){
+                var platform = $("#id_platform").val()
+                var version_detail = $("#id_version_detail").val()
+                var task_id = $("#id_task_id").val()
+                var test_path = $("#id_test_path").val()
+                var event = $("#id_event").val()
+                var test_case_url = $("#id_test_case_url").val()
+                var datetime = $("#id_datetime").val()
+                var result = $("#id_result").val()
+
                 $.ajax({
                     url: RESULT_SEARCH,
                     type: 'GET',
-                    data: $('#form').serialize(),
+                    data: {
+                        "platform": platform,
+                        "version_detail": version_detail,
+                        "task_id": task_id,
+                        "test_path": test_path,
+                        "event": event,
+                        "test_case_url": test_case_url,
+                        "datetime":datetime,
+                        "result":result,
+                    },
                     success: function (data){
                         console.log('ok')
                         location.href = data.url

@@ -11,8 +11,26 @@
                     <div>
                         <a href="#" class="list-group-item">我的资料</a>
                         <a href="#" class="list-group-item">修改密码</a>
+                    </div>
+                </div>
+                <div class="panel-heading" style="background-color:transparent;font-weight: bold;">
+                    项目管理
+                </div>
+                <div class="list-group" style="border-radius: 0">
+                    <div>
+                        <a href="#" class="list-group-item">需求管理</a>
+                        <a href="#" class="list-group-item">模块管理</a>
+                        <a href="#" class="list-group-item">问题类型</a>
                         <a href="{% url 'setting_delete'  project_id=request.tracer.project.id %}"
                            class="list-group-item">删除项目</a>
+                    </div>
+                </div>
+                <div class="panel-heading" style="background-color:transparent;font-weight: bold;">
+                    开发者
+                </div>
+                <div class="list-group" style="border-radius: 0">
+                    <div>
+                        <a href="#" class="list-group-item">问题反馈</a>
                     </div>
                 </div>
             </div>

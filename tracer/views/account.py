@@ -18,8 +18,17 @@ from tracer.models import UserInfo
 from tracer.form.account import UserForm, SendSmsForm, LoginSMSForm, LoginForm
 from utils.tencent.sms import send_sms_single
 
-#与用户注册登录相关
 
+
+def bytedance_login(request):
+    user = auth.authenticate(username=settings.BYTEDANCE_USERNAME, password=settings.BYTEDANCE_PASSWORD)
+    if user:
+        auth.login(request, user)
+        return redirect('/index/')
+    else:
+        return HttpResponse('请检查本地配置文件，确保用户名密码正确')
+
+#与用户注册登录相关
 def register(request):
     '''
     register view

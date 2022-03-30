@@ -14,13 +14,15 @@
             flex-direction: row;
             justify-content: space-between;
         }
-
+        .function i {
+            margin-right: 5px;
+        }
         .panel-default > .panel-heading a {
+            margin-left: 5px;
             text-decoration: none;
         }
-
         .panel-default > .panel-heading span {
-            padding: 0 5px;
+            padding: 0 3px;
         }
         .panel-default > .panel-heading .function .upload {
             overflow: hidden;
@@ -63,12 +65,13 @@
                 </div>
                 <div>
                     <div class="function">
+                        <i><a style="margin-left: 20px;">此处暂使用腾讯云存储，字节公司内部文件禁止上传</a></i>
                         <div class="btn btn-primary btn-xs upload" style="position: relative">
                             <div><i class="fa fa-upload" aria-hidden="true"></i> 上传文件</div>
                             <input type="file" multiple name="uploadFile" id="uploadFile">
                         </div>
                         <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#addModal" data-whatever="新建文件夹">
-                            <i class="fa fa-plus-circle" aria-hidden="true">新建文件夹</i>
+                            <div><i class="fa fa-plus-circle" aria-hidden="true"></i>新建文件夹</div>
                         </a>
                     </div>
                 </div>
