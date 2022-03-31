@@ -1,6 +1,8 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from tracer import models
+from tracer.form.setting import IssueTypeForm
 from utils.tencent.cos import delete_bucket
 
 
@@ -30,3 +32,14 @@ def delete(request, project_id):
     models.Project.objects.filter(name=project_name, creator=request.user).delete()
 
     return redirect("project_list")
+
+def add_issuetype(request, project_id):
+
+    if request.method == 'GET':
+        return render(request, 'setting_issuetype.html')
+    form = IssueTypeForm()
+    if form.is_valid():
+        form.instance.project = request.tracer.project
+        instance = form.save()
+        return JsonResponse({'status': True, 'data': instance})
+    return JsonResponse({'status': False, 'error': form.errors})

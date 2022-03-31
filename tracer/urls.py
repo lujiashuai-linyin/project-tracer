@@ -43,6 +43,7 @@ urlpatterns = [
         re_path(r'^file/download/(?P<file_id>\d+)/$', file.file_download, name='file_download'),
 
         re_path(r'^setting/$', setting.setting, name='setting'),
+        re_path(r'^setting/issue/type/$', setting.add_issuetype, name='add_issue_type'),
         re_path(r'^setting/delete/$', setting.delete, name='setting_delete'),
 
         re_path(r'^issues/$', issues.issues, name='issues'),
