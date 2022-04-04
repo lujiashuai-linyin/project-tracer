@@ -21,6 +21,7 @@ urlpatterns = [
 
     #myapp_url
     re_path(r'^', include('tracer.urls')),
+    re_path(r'^detector/', include('detector.urls'))
 
 
 ]

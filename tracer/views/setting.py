@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from tracer import models
-from tracer.form.setting import IssueTypeForm
+from tracer.form.setting import IssueTypeForm, AppRequireForm
 from utils.tencent.cos import delete_bucket
 
 
@@ -40,6 +40,18 @@ def add_issuetype(request, project_id):
     form = IssueTypeForm()
     if form.is_valid():
         form.instance.project = request.tracer.project
+        instance = form.save()
+        return JsonResponse({'status': True, 'data': instance})
+    return JsonResponse({'status': False, 'error': form.errors})
+
+def debug(request, project_id):
+    if request.method == 'GET':
+        return render(request, 'setting_debug.html')
+    form = AppRequireForm()
+    if form.is_valid():
+        form.instance.project = request.tracer.project
+        form.instance.creator = request.user
+        form.instance.update_user = request.user
         instance = form.save()
         return JsonResponse({'status': True, 'data': instance})
     return JsonResponse({'status': False, 'error': form.errors})

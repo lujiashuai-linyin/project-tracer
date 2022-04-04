@@ -1,50 +1,38 @@
-Thu, 31 Mar 2022 14:04:35 log.py[line:230] ERROR Internal Server Error: /manage/10/setting/issue/type/
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 470, in parse
-    compile_func = self.tags[command]
-KeyError: 'setting_base_list'
-
-During handling of the above exception, another exception occurred:
-
+Mon, 04 Apr 2022 00:25:21 log.py[line:230] ERROR Internal Server Error: /register/
 Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
     response = get_response(request)
   File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/views/setting.py", line 39, in add_issuetype
-    return render(request, 'setting_issuetype.html')
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/shortcuts.py", line 19, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/backends/django.py", line 34, in get_template
-    return Template(self.engine.get_template(template_name), self)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/engine.py", line 143, in get_template
-    template, origin = self.find_template(template_name)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/engine.py", line 125, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/loaders/base.py", line 30, in get_template
-    contents, origin, origin.template_name, self.engine,
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 155, in __init__
-    self.nodelist = self.compile_nodelist()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 193, in compile_nodelist
-    return parser.parse()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 478, in parse
-    raise self.error(token, e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 476, in parse
-    compiled_result = compile_func(self, token)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/loader_tags.py", line 278, in do_extends
-    nodelist = parser.parse()
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 478, in parse
-    raise self.error(token, e)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 476, in parse
-    compiled_result = compile_func(self, token)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/loader_tags.py", line 216, in do_block
-    nodelist = parser.parse(('endblock',))
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 472, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/template/base.py", line 528, in invalid_block_tag
-    get_text_list(["'%s'" % p for p in parse_until], 'or'),
-django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 15: 'setting_base_list', expected 'endblock'. Did you forget to register or load this tag?
+  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/views/account.py", line 41, in register
+    if form.is_valid():
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 175, in is_valid
+    return self.is_bound and not self.errors
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 170, in errors
+    self.full_clean()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 373, in full_clean
+    self._clean_form()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 400, in _clean_form
+    cleaned_data = self.clean()
+  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/form/account.py", line 71, in clean
+    user = self.cleaned_data['user']
+KeyError: 'user'
+Mon, 04 Apr 2022 00:25:33 log.py[line:230] ERROR Internal Server Error: /register/
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/views/account.py", line 41, in register
+    if form.is_valid():
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 175, in is_valid
+    return self.is_bound and not self.errors
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 170, in errors
+    self.full_clean()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 373, in full_clean
+    self._clean_form()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/forms/forms.py", line 400, in _clean_form
+    cleaned_data = self.clean()
+  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/form/account.py", line 71, in clean
+    user = self.cleaned_data['user']
+KeyError: 'user'

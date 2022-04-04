@@ -11,7 +11,7 @@ def get_validCode_img(request):
     img = Image.new('RGB', (131, 35), color=get_random_color())
 
     draw = ImageDraw.Draw(img)
-    kumo_font = ImageFont.truetype('/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/static/font/kumo.ttf', size=28,)
+    kumo_font = ImageFont.truetype('/Users/bytedance/PycharmProjects/djangoProject/mysite/static/font/kumo.ttf', size=28,)
 
     valid_code_str = ""
     for i in range(5):

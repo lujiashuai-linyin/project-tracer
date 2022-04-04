@@ -43,7 +43,7 @@ def result_search(request, project_id):
 # 埋点自动化结果
 
 def project_detail(request, project_id):
-    # 获取request请求中的筛选参数,自创搜索引擎，还算牛掰
+
     kwargs = {'project_id': project_id}
 
     task_id_list = request.GET.getlist('task_id')
@@ -78,13 +78,26 @@ def project_detail(request, project_id):
 
     queryset = models.TikTokAutoTest.objects.filter(**kwargs).order_by('-id').all()
 
-    page_object = Pagination(
+    no_version_object = queryset.values('task_id').filter(version_detail__isnull=True).all()
+
+    if no_version_object.exists():
+        have_version_object = queryset.values('task_id').distinct().order_by('task_id')
+        for item in have_version_object:
+            # print(item['task_id'])
+            # print(item['version_detail'])
+            try:
+                version_detail = queryset.filter(task_id=item['task_id'], version_detail__isnull=False).first().version_detail
+                no_version_object.filter(task_id=item['task_id']).update(version_detail=version_detail)
+            except:
+                pass
+    queryset_true = models.TikTokAutoTest.objects.filter(**kwargs).order_by('-id').all()
+    page_object_true = Pagination(
         current_page=request.GET.get('page'),
-        all_count=queryset.count(),
+        all_count=queryset_true.count(),
         base_url=request.path_info,
         query_params=request.GET
     )
-    issues_object_list = queryset[page_object.start:page_object.end]
+    result_object_list = queryset_true[page_object_true.start:page_object_true.end]
     # for result_object in issues_object_list:
     #     rows.append(
     #         {
@@ -103,8 +116,8 @@ def project_detail(request, project_id):
     context = {
         'status': True,
         'form': form,
-        'issues_object_list': issues_object_list,
-        'page_html': page_object.page_html(),
+        'issues_object_list': result_object_list,
+        'page_html': page_object_true.page_html(),
     }
 
     return render(request, 'project_detail.html', context)

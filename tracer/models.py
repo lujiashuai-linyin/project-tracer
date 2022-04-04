@@ -132,7 +132,7 @@ class TikTokAutoTest(models.Model):
     )
     project = models.ForeignKey(verbose_name='项目', to=Project, on_delete=models.CASCADE)
     platform = models.SmallIntegerField(verbose_name='平台', choices=platform_choice)
-    version_detail = models.CharField(verbose_name='版本详情', max_length=32)
+    version_detail = models.CharField(verbose_name='版本详情', null=True, blank=True, max_length=32)
     task_id = models.IntegerField(verbose_name='任务id')
     test_path = models.CharField(verbose_name='脚本路径', null=True, blank=True, max_length=300)
     event = models.CharField(verbose_name='EVENT', max_length=16)

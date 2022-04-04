@@ -127,8 +127,8 @@ def login(request):
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
             user_object = models.UserInfo.objects.filter(Q(email=username) | Q(telephone=username) | Q(username=username)).first()
-            user = auth.authenticate(username=user_object.username, password=password)
-            if user:
+            if user_object:
+                user = auth.authenticate(username=user_object.username, password=password)
                 auth.login(request, user)
                 response['user'] = user.username
             else:

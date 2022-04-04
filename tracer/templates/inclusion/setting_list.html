@@ -16,9 +16,9 @@
             <a href="#" class="list-group-item">需求管理</a>
             <a href="#" class="list-group-item">模块管理</a>
             <a href="{% url 'add_issue_type' project_id=request.tracer.project.id %}"
-               class="list-group-item">问题类型</a>
+               class="list-group-item" id="issue_type">问题类型</a>
             <a href="{% url 'setting_delete'  project_id=request.tracer.project.id %}"
-               class="list-group-item">删除项目</a>
+               class="list-group-item" id="delete_project">删除项目</a>
         </div>
     </div>
     <div class="panel-heading" style="background-color:transparent;font-weight: bold;">
@@ -26,7 +26,25 @@
     </div>
     <div class="list-group" style="border-radius: 0">
         <div>
-            <a href="#" class="list-group-item">问题反馈</a>
+            <a href="{% url 'debug' project_id=request.tracer.project.id %}" class="list-group-item" id="debug">问题反馈</a>
         </div>
     </div>
 </div>
+{% block js %}
+    <script>
+        $(function (){
+            init_choose();
+        })
+
+        function init_choose(){
+            var pathname = window.location.pathname;
+            if(pathname.endsWith('/delete/')){
+                $('#delete_project').attr('class', 'list-group-item choose')
+            }else if(pathname.endsWith('/issue/type/')){
+                $('#issue_type').attr('class', 'list-group-item choose')
+            }else if(pathname.endsWith('/debug/')){
+                $('#debug').attr('class', 'list-group-item choose')
+            }
+        }
+    </script>
+{% endblock %}

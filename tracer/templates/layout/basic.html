@@ -49,11 +49,12 @@
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'project_list' %}">管理中心</a></li>
                             <li role="separator" class="divider"></li>
+                            <li><a href="/detector/parser/index/">Detector</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a href="/logout/">退 出</a></li>
                         </ul>
                     </li>
                 {% else %}
-                    <li><a href="/bytedance/">自动登录(字节内部)</a></li>
                     <li><a href="/login/">登 录</a></li>
                     <li><a href="/register/">注 册</a></li>
                 {% endif %}

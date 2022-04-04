@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #my_site_app
     'tracer',
+    'detector',
 ]
 
 MIDDLEWARE = [
@@ -176,7 +177,11 @@ WHITE_REGEX_URL_LIST = [
     '/navigation/',
     '/manage/10/result/save/',
     '/manage/10/project/detail/',
-    '/manage/10/result/search/'
+    '/manage/10/result/search/',
+
+    # detector
+    '/detector/parser/index/',
+    '/detector/parser/login/',
 ]
 
 CASE_BASE_URL = "https://bytest.bytedance.net/next/projects/66666669/test-case/case/manual?"
