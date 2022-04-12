@@ -18,8 +18,12 @@ from tracer.form.result_filter import ResultFilter
 
 def result_search(request, project_id):
     query_dict = request.GET.copy()
-    for name in ['platform', 'version_detail', 'task_id', 'test_path', 'event', 'test_case_url', 'result', 'datetime']:
+    for name in ['platform', 'version_detail', 'task_id', 'test_path', 'event', 'test_case_url', 'result', 'create_time']:
         value_list = request.GET.getlist(name, None)
+        if len(value_list) == 1:
+            value_list = list(value_list[0].split(','))
+        else:
+            value_list = value_list
 
         if not value_list[0]:
             query_dict._mutable = True
@@ -44,45 +48,48 @@ def result_search(request, project_id):
 
 def project_detail(request, project_id):
 
+    allow_filter_list = ['task_id', 'event', 'platform', 'version_detail', 'test_path', 'case_id', 'result', 'create_time']
+
     kwargs = {'project_id': project_id}
 
-    task_id_list = request.GET.getlist('task_id')
-    if len(task_id_list) == 1:
-        task_id = list(task_id_list[0].split(','))
-    else:
-        task_id = task_id_list
-    if task_id:
-        kwargs.update({'task_id__in': task_id})
+    for name in allow_filter_list:
+        value_list = request.GET.getlist(name)
+        if not value_list:
+            continue
+        kwargs['{}__in'.format(name)] = value_list
 
-    event = request.GET.getlist('event')
-    if event:
-        kwargs.update({'event__in': event})
-    platform = request.GET.getlist('platform')
-    if platform:
-        kwargs.update({'platform__in': platform})
-    version_detail = request.GET.getlist('version_detail')
-    if version_detail:
-        kwargs.update({'version_detail__in': version_detail})
-    test_path = request.GET.getlist('test_path')
-    if test_path:
-        kwargs.update({'test_path__in': test_path})
-    test_case_url = request.GET.getlist('test_case_url')
-    if test_case_url:
-        kwargs.update({'test_case_url__in': test_case_url})
-    result = request.GET.getlist('result')
-    if result:
-        kwargs.update({'result__in': result})
-    create_time = request.GET.getlist('create_time')
-    if create_time:
-        kwargs.update({'create_time__in': create_time})
+    # if task_id:
+    #     kwargs.update({'task_id__in': task_id})
+    #
+    # event = request.GET.getlist('event')
+    # if event:
+    #     kwargs.update({'event__in': event})
+    # platform = request.GET.getlist('platform')
+    # if platform:
+    #     kwargs.update({'platform__in': platform})
+    # version_detail = request.GET.getlist('version_detail')
+    # if version_detail:
+    #     kwargs.update({'version_detail__in': version_detail})
+    # test_path = request.GET.getlist('test_path')
+    # if test_path:
+    #     kwargs.update({'test_path__in': test_path})
+    # test_case_url = request.GET.getlist('test_case_url')
+    # if test_case_url:
+    #     kwargs.update({'test_case_url__in': test_case_url})
+    # result = request.GET.getlist('result')
+    # if result:
+    #     kwargs.update({'result__in': result})
+    # create_time = request.GET.getlist('create_time')
+    # if create_time:
+    #     kwargs.update({'create_time__in': create_time})
+    now_time = datetime.date.today()
+    queryset = models.TikTokAutoTest.objects.filter(**kwargs).filter(create_time__gte=now_time - datetime.timedelta(days=5)).order_by('-id').all()
 
-    queryset = models.TikTokAutoTest.objects.filter(**kwargs).order_by('-id').all()
-
-    no_version_object = queryset.values('task_id').filter(version_detail__isnull=True).all()
+    no_version_object = queryset.values('task_id').filter(version_detail__isnull=True).order_by('-create_time')
 
     if no_version_object.exists():
-        have_version_object = queryset.values('task_id').distinct().order_by('task_id')
-        for item in have_version_object:
+        no_version_task_id = no_version_object.values('task_id').distinct().order_by('-task_id')[:20]
+        for item in no_version_task_id:
             # print(item['task_id'])
             # print(item['version_detail'])
             try:
@@ -90,7 +97,8 @@ def project_detail(request, project_id):
                 no_version_object.filter(task_id=item['task_id']).update(version_detail=version_detail)
             except:
                 pass
-    queryset_true = models.TikTokAutoTest.objects.filter(**kwargs).order_by('-id').all()
+
+    queryset_true = models.TikTokAutoTest.objects.filter(**kwargs).filter(create_time__gte=now_time - datetime.timedelta(days=5)).order_by('-id').all()
     page_object_true = Pagination(
         current_page=request.GET.get('page'),
         all_count=queryset_true.count(),

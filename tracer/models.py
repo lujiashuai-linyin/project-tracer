@@ -142,6 +142,8 @@ class TikTokAutoTest(models.Model):
     create_time = models.DateTimeField(verbose_name='收录时间', auto_now_add=True)
 
     class Meta:
+        index_together = ['id', 'create_time']
+        ordering = ('-id', '-create_time')
         unique_together = ('task_id', 'case_id')
 
 class FileRepository(models.Model):
@@ -152,7 +154,7 @@ class FileRepository(models.Model):
         (2, '文件夹')
     )
     file_type = models.SmallIntegerField(verbose_name='类型', choices=file_type_choices)
-    name = models.CharField(verbose_name='文件夹名称', max_length=32, help_text="文件/文件夹名")
+    name = models.CharField(verbose_name='文件夹名称', max_length=120, help_text="文件/文件夹名")
     key = models.CharField(verbose_name='文件储存在COS中的KEY', max_length=128, null=True, blank=True)
 
     # int类型最大表示的数据

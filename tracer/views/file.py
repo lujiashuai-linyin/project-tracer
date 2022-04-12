@@ -194,7 +194,7 @@ def file_post(request, project_id):
         }
         return JsonResponse({'status': True, 'data': result})
 
-    return JsonResponse({'status': False, 'data': "文件错误"})
+    return JsonResponse({'status': False, 'data': form.errors})
 
 def file_download(request, project_id, file_id):
     file_object = models.FileRepository.objects.filter(id=file_id, project_id=project_id).first()

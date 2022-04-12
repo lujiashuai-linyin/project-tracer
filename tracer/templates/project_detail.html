@@ -189,7 +189,7 @@
                 var test_path = $("#id_test_path").val()
                 var event = $("#id_event").val()
                 var test_case_url = $("#id_test_case_url").val()
-                var datetime = $("#id_datetime").val()
+                var create_time = $("#id_datetime").val()
                 var result = $("#id_result").val()
 
                 $.ajax({
@@ -202,7 +202,7 @@
                         "test_path": test_path,
                         "event": event,
                         "test_case_url": test_case_url,
-                        "datetime":datetime,
+                        "create_time":create_time,
                         "result":result,
                     },
                     success: function (data){

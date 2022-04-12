@@ -2,6 +2,7 @@ import os
 import sys
 import django
 import requests
+from django.db.models import Count
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(base_dir)
@@ -48,15 +49,23 @@ from tracer import models
 
 # response = requests.get(url='https://cony.bytedance.net/api/calendar', params={'space_alias': 'tiktok'}, headers={'content-type': 'application/json'})
 
-from datetime import datetime
-now_weekday = datetime.today().isoweekday()
-if now_weekday in [1, 2, 6, 7]:
-    print('回归')
-elif now_weekday == 3:
-    print('一灰')
-elif now_weekday == 4:
-    print('二灰')
-else:
-    print('三灰')
+# project_object = models.Project.objects.count()
+# print(project_object)
 
-
+def chose_string(source, target):
+    n = len(source)
+    m = len(target)
+    if m == 0:
+        return 0
+    if m > n:
+        return -1
+    for i in range(n - m + 1):
+        k = i
+        for j in range(m):
+            if source[k] == target[j]:
+                if j == m-1:
+                    return i
+                k += 1
+            else:
+                break
+        return -1
