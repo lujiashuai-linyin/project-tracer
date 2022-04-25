@@ -24,8 +24,7 @@ def result_search(request, project_id):
             value_list = list(value_list[0].split(','))
         else:
             value_list = value_list
-
-        if not value_list[0]:
+        if value_list == ['']:
             query_dict._mutable = True
             query_dict.pop(name)
             continue
@@ -54,7 +53,7 @@ def project_detail(request, project_id):
 
     for name in allow_filter_list:
         value_list = request.GET.getlist(name)
-        if not value_list:
+        if value_list == [''] or not bool(value_list):
             continue
         kwargs['{}__in'.format(name)] = value_list
 
@@ -83,9 +82,9 @@ def project_detail(request, project_id):
     # if create_time:
     #     kwargs.update({'create_time__in': create_time})
     now_time = datetime.date.today()
-    queryset = models.TikTokAutoTest.objects.filter(**kwargs).filter(create_time__gte=now_time - datetime.timedelta(days=5)).order_by('-id').all()
+    queryset = models.TikTokAutoTest.objects.filter(**kwargs).filter(create_time__gte=now_time - datetime.timedelta(days=5)).all()
 
-    no_version_object = queryset.values('task_id').filter(version_detail__isnull=True).order_by('-create_time')
+    no_version_object = queryset.values('task_id').filter(version_detail__isnull=True)
 
     if no_version_object.exists():
         no_version_task_id = no_version_object.values('task_id').distinct().order_by('-task_id')[:20]
@@ -150,8 +149,7 @@ def result_save(request, project_id):
 
     """
     if request.method == 'POST':
-        postBody = request.body
-        json_data = json.loads(postBody)
+        json_data = json.loads(request.body)
         platform = json_data.get('platform')
         platform_value = None
         # print(platform)

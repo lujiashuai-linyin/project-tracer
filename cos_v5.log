@@ -1,0 +1,71 @@
+Mon, 25 Apr 2022 14:43:59 cos_client.py[line:72] INFO config parameter-> appid: None, region: ap-beijing
+Mon, 25 Apr 2022 14:43:59 cos_client.py[line:599] INFO create bucket, url=:http://tracer-2-1650869039-1309571620.cos.ap-beijing.myqcloud.com/ ,headers=:{'x-cos-acl': 'public-read'}
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:386] INFO Inside dicttoxml(): type(obj) is: "dict", obj="{'CORSRule': [{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}]}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:172] INFO Inside convert(). obj type is: "dict", obj="{'CORSRule': [{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}]}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:200] INFO Inside convert_dict(): obj type is: "dict", obj="{'CORSRule': [{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}]}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="CORSRule", val="[{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}]", type(val)="list"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "CORSRule" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "CORSRule"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:259] INFO Inside convert_list()
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}", item_name="CORSRule", type="dict"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:200] INFO Inside convert_dict(): obj type is: "dict", obj="{'AllowedOrigin': '*', 'AllowedMethod': ['GET', 'PUT', 'HEAD', 'POST', 'DELETE'], 'AllowedHeader': '*', 'ExposeHeader': '*', 'MaxAgeSeconds': 500}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="AllowedOrigin", val="*", type(val)="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedOrigin" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedOrigin"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedOrigin", val="*", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedOrigin" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedOrigin"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="AllowedMethod", val="['GET', 'PUT', 'HEAD', 'POST', 'DELETE']", type(val)="list"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:259] INFO Inside convert_list()
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="GET", item_name="AllowedMethod", type="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedMethod", val="GET", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="PUT", item_name="AllowedMethod", type="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedMethod", val="PUT", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="HEAD", item_name="AllowedMethod", type="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedMethod", val="HEAD", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="POST", item_name="AllowedMethod", type="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedMethod", val="POST", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:270] INFO Looping inside convert_list(): item="DELETE", item_name="AllowedMethod", type="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedMethod", val="DELETE", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedMethod" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedMethod"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="AllowedHeader", val="*", type(val)="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedHeader" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedHeader"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="AllowedHeader", val="*", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "AllowedHeader" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "AllowedHeader"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="ExposeHeader", val="*", type(val)="str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "ExposeHeader" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "ExposeHeader"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="ExposeHeader", val="*", type(val) is: "str"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "ExposeHeader" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "ExposeHeader"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:209] INFO Looping inside convert_dict(): key="MaxAgeSeconds", val="500", type(val)="int"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "MaxAgeSeconds" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "MaxAgeSeconds"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:327] INFO Inside convert_kv(): key="MaxAgeSeconds", val="500", type(val) is: "int"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:135] INFO Inside make_valid_xml_name(). Testing key "MaxAgeSeconds" with attr "{}"
+Mon, 25 Apr 2022 14:44:00 dicttoxml.py[line:123] INFO Inside key_is_valid_xml(). Testing "MaxAgeSeconds"
+Mon, 25 Apr 2022 14:44:00 cos_client.py[line:853] INFO put bucket cors, url=:http://tracer-2-1650869039-1309571620.cos.ap-beijing.myqcloud.com/?cors ,headers=:{'Content-MD5': b'EpfANU6Tm/ZysT0atjAPRg==', 'Content-Type': 'application/xml'}
+Mon, 25 Apr 2022 14:44:04 log.py[line:230] ERROR Internal Server Error: /manage/2/result/search/
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/bytedance/PycharmProjects/djangoProject/mysite/tracer/views/project_detail.py", line 32, in result_search
+    query_dict.pop(name)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/http/request.py", line 553, in pop
+    return super().pop(key, *args)
+KeyError: 'platform'

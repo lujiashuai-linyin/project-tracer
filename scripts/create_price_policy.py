@@ -15,4 +15,5 @@ def run():
 def run1():
     models.ProjectUser.objects.filter(user_id=3).delete()
 if __name__ == "__main__":
-    run1()
+    run()
+

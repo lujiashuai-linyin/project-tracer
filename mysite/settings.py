@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #my_site_app
     'tracer',
     'detector',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import datetime
+
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 from django.conf import settings
@@ -25,7 +26,7 @@ class AuthMiddleware(MiddlewareMixin):
         2. 检查URL是否在白名单中，如果再则可以继续向后访问，如果不在则进行判断是否已登录
         """
         # print(request.path_info)
-        if request.path_info in settings.WHITE_REGEX_URL_LIST:
+        if request.path_info in settings.WHITE_REGEX_URL_LIST or request.path_info.startswith('/api/'):
             return
 
         # 检查用户是否已登录，已登录继续往后走；未登录则返回登录页面。
