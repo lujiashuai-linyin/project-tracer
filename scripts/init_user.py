@@ -12,7 +12,8 @@ django.setup()
 from tracer import models
 
 # models.PricePolicy.objects.create(category=3, title='字节专用版', price=100000, project_num=20, project_member=2000, project_space=10, per_file_size=2048, )
-# case_list = models.TikTokAutoTest.objects.filter(project_id=10, task_id=0)
+case_list = models.UserInfo.objects.filter(create_time__gte='2022-04-25')
+print(case_list)
 # result=[]
 # for case_id in case_list:
 #     result.append(case_id.case_id)
@@ -52,20 +53,20 @@ from tracer import models
 # project_object = models.Project.objects.count()
 # print(project_object)
 
-def chose_string(source, target):
-    n = len(source)
-    m = len(target)
-    if m == 0:
-        return 0
-    if m > n:
-        return -1
-    for i in range(n - m + 1):
-        k = i
-        for j in range(m):
-            if source[k] == target[j]:
-                if j == m-1:
-                    return i
-                k += 1
-            else:
-                break
-        return -1
+# def chose_string(source, target):
+#     n = len(source)
+#     m = len(target)
+#     if m == 0:
+#         return 0
+#     if m > n:
+#         return -1
+#     for i in range(n - m + 1):
+#         k = i
+#         for j in range(m):
+#             if source[k] == target[j]:
+#                 if j == m-1:
+#                     return i
+#                 k += 1
+#             else:
+#                 break
+#         return -1

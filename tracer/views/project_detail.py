@@ -55,7 +55,14 @@ def project_detail(request, project_id):
         value_list = request.GET.getlist(name)
         if value_list == [''] or not bool(value_list):
             continue
-        kwargs['{}__in'.format(name)] = value_list
+        if name == 'create_time':
+            year = int(value_list[0].split('-')[0])
+            month = str(value_list[0].split('-')[1]).rjust(2, "0")
+            day = int(value_list[0].split('-')[-1]) + 1
+            kwargs['{}__gte'.format(name)] = value_list[0]
+            kwargs['{}__lte'.format(name)] = f'{year}-{month}-{day}'
+        else:
+            kwargs['{}__in'.format(name)] = value_list
 
     # if task_id:
     #     kwargs.update({'task_id__in': task_id})
