@@ -13,7 +13,8 @@
     </div>
     <div class="list-group" style="border-radius: 0">
         <div>
-            <a href="#" class="list-group-item">需求管理</a>
+            <a href="{% url 'app_require' project_id=request.tracer.project.id %}"
+               class="list-group-item" id="app_require">需求管理</a>
             <a href="#" class="list-group-item">模块管理</a>
             <a href="{% url 'add_issue_type' project_id=request.tracer.project.id %}"
                class="list-group-item" id="issue_type">问题类型</a>
@@ -38,12 +39,14 @@
 
         function init_choose(){
             var pathname = window.location.pathname;
-            if(pathname.endsWith('/delete/')){
+            if(pathname.endsWith('/setting/delete/')){
                 $('#delete_project').attr('class', 'list-group-item choose')
             }else if(pathname.endsWith('/issue/type/')){
                 $('#issue_type').attr('class', 'list-group-item choose')
             }else if(pathname.endsWith('/debug/')){
                 $('#debug').attr('class', 'list-group-item choose')
+            }else if(pathname.endsWith('/require/')){
+                $('#app_require').attr('class', 'list-group-item choose')
             }
         }
     </script>

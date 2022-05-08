@@ -19,27 +19,96 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i>项目管理</div>
                 <div class="panel-body">
-
-                    <form class="form-horizontal" method="post">
+                    <form class="form-horizontal" id="form">
                         {% csrf_token %}
                         <div class="form-group">
                             <label class="col-sm-2 control-label">问题类型</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="请输入问题类型" name="issue_type">
+                                <input type="text" class="form-control" placeholder="请输入问题类型" id="id_title1" name="title">
                                 <span class="error">{{ error }}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-5">
-                                <input type="submit" class="btn btn-success" value="添 加">
+                                <input type="button" id="add-type" class="btn btn-success" value="添 加">
                             </div>
                         </div>
 
                     </form>
+                    <form class="form-horizontal" id="delete-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">问题类型</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入问题类型" id="id_title2" name="title">
+                                <span class="error">{{ error }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <input type="button" id="delete-type" class="btn btn-danger" value="删 除">
+                            </div>
+                        </div>
 
+                    </form>
                 </div>
             </div>
 
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var LOCAL_URL = "{% url 'add_issue_type' project_id=request.tracer.project.id %}";
+        var DELETE_URL = "{% url 'delete_issuetype' project_id=request.tracer.project.id %}";
+        {#var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";#}
+
+        $(function (){
+            submit();
+            submitDelete();
+            {#initEditorMd();#}
+        })
+        function submit(){
+            $('#add-type').click(function (){
+                $(".error").empty()
+                $.ajax({
+                    url: LOCAL_URL,
+                    type: "post",
+                    dataType: 'JSON',
+                    data: $('#form').serialize(),
+                    success: function (data){
+                        if(data.status){
+                            $('#form').get(0).reset()
+                            alert("提交成功")
+                        }else {
+                            console.log(data.error)
+                            $("#id_title1").next().text(data.error.title[0]);
+                        }
+                    }
+                })
+            })
+        }
+        function submitDelete(){
+            $('#delete-type').click(function (){
+                    $("error").empty()
+                    $.ajax({
+                        url: DELETE_URL,
+                        type: "post",
+                        dataType: 'JSON',
+                        data: $('#delete-form').serialize(),
+                        success: function (data) {
+                            if (data.status) {
+                                $('#delete-form').get(0).reset()
+                                alert("删除成功")
+                            } else {
+                                console.log(data.error)
+                                $("#id_title2").next().text(data.error);
+                            }
+                        }
+                    })
+                }
+            )
+        }
+    </script>
 {% endblock %}

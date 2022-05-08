@@ -18,6 +18,8 @@ def all_project_list(request):
 @register.inclusion_tag('inclusion/manage_menu_list.html')
 def manage_menu_list(request):
     data_list = [
+        {'title': '埋点', 'url': reverse("project_detail", kwargs={'project_id': request.tracer.project.id})},
+        {'title': '场景', 'url': reverse("mock_scene", kwargs={'project_id': request.tracer.project.id})},
         {'title': '概览', 'url': reverse("dashboard", kwargs={'project_id': request.tracer.project.id})},
         {'title': '问题', 'url': reverse("issues", kwargs={'project_id': request.tracer.project.id})},
         {'title': '统计', 'url': reverse("statistics", kwargs={'project_id': request.tracer.project.id})},

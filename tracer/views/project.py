@@ -7,7 +7,6 @@ from tracer.form.project import ProjectModelForm
 from django.http import JsonResponse
 
 from utils.tencent.cos import create_bucket
-from xpinyin import Pinyin
 
 def project_list(request):
     # print(request.tracer.user.username)

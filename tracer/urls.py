@@ -1,11 +1,15 @@
-from django.contrib import admin
-from django.urls import path, re_path, include
 from django.views.static import serve
-
-from mysite import settings
 from tracer.views import account, file, setting, issues, project_detail, statistics, navigation
 from tracer.views import project
 from tracer.views import wiki
+
+from rest_framework.routers import DefaultRouter
+from django.urls import path, re_path, include
+from mysite import settings
+from tracer.views import mock_scene
+
+router = DefaultRouter()
+router.register("scene", mock_scene.SceneInfoViewSet, basename="scene")
 
 urlpatterns = [
     path('bytedance/', account.bytedance_login, name='bytedance_login'),
@@ -44,6 +48,9 @@ urlpatterns = [
 
         re_path(r'^setting/$', setting.setting, name='setting'),
         re_path(r'^setting/issue/type/$', setting.add_issuetype, name='add_issue_type'),
+        re_path(r'^setting/issue/type/delete/$', setting.delete_issuetype, name='delete_issuetype'),
+        re_path(r'^setting/app/require/$', setting.app_require, name='app_require'),
+        re_path(r'^setting/app/require/delete/$', setting.delete_app_require, name='delete_app_require'),
         re_path(r'^setting/debug/$', setting.debug, name='debug'),
         re_path(r'^setting/delete/$', setting.delete, name='setting_delete'),
 
@@ -55,6 +62,8 @@ urlpatterns = [
 
         re_path(r'^dashboard/$', project_detail.dashboard, name='dashboard'),
         re_path(r'^project/detail/$', project_detail.project_detail, name='project_detail'),
+        re_path(r'^project/mock/scene/$', mock_scene.mock_scene, name='mock_scene'),
+
         re_path(r'^result/save/$', project_detail.result_save, name='result_save'),
         re_path(r'^result/search/$', project_detail.result_search, name='result_search'),
         re_path(r'^dashboard/issues/chart/$', project_detail.issues_chart, name='issues_chart'),
@@ -67,4 +76,4 @@ urlpatterns = [
     re_path(r'^invite/join/(?P<code>\w+)/$', issues.invite_join, name='invite_join'),
     re_path(r'navigation/$', navigation.list_jump, name='list_jump'),
 
-]
+] + router.urls

@@ -1,3 +1,20 @@
 from django.contrib import admin
-
+from tracer import models
 # Register your models here.
+admin.site.register(models.UserInfo)
+admin.site.register(models.Project)
+admin.site.register(models.IssuesType)
+admin.site.register(models.Issues)
+admin.site.register(models.Transaction)
+admin.site.register(models.PricePolicy)
+admin.site.register(models.ProjectUser)
+admin.site.register(models.ProjectInvite)
+admin.site.register(models.IssuesReply)
+admin.site.register(models.AppRequire)
+admin.site.register(models.FileRepository)
+admin.site.register(models.Wiki)
+admin.site.register(models.DeveloperDebug)
+admin.site.register(models.WikiJoin)
+admin.site.register(models.TikTokAutoTest)
+admin.site.register(models.Module)
+admin.site.register(models.SceneInfo)

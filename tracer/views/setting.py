@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from tracer import models
-from tracer.form.setting import IssueTypeForm, AppRequireForm
+from tracer.form.setting import IssueTypeForm, AppRequireForm, DeveloperDebugForm
 from utils.tencent.cos import delete_bucket
 
 
@@ -37,21 +37,58 @@ def add_issuetype(request, project_id):
 
     if request.method == 'GET':
         return render(request, 'setting_issuetype.html')
-    form = IssueTypeForm()
+    form = IssueTypeForm(data=request.POST)
     if form.is_valid():
         form.instance.project = request.tracer.project
         instance = form.save()
-        return JsonResponse({'status': True, 'data': instance})
+        return JsonResponse({'status': True})
     return JsonResponse({'status': False, 'error': form.errors})
 
-def debug(request, project_id):
+def delete_issuetype(request, project_id):
+    issuetype_name = request.POST.get('title')
+    if not issuetype_name:
+        return JsonResponse({'error': "问题类型名称输入错误"})
+
+    if request.user != request.tracer.project.creator:
+        return JsonResponse({'error': "只有项目创建者可删除项目"})
+    try:
+        models.IssuesType.objects.filter(title=issuetype_name, project_id=project_id).delete()
+    except:
+        return JsonResponse({"status": False, "error": "没有此问题类型"})
+    return JsonResponse({"status": True})
+
+def app_require(request, project_id):
     if request.method == 'GET':
-        return render(request, 'setting_debug.html')
-    form = AppRequireForm()
+        return render(request, 'setting_apprequire.html')
+    form = AppRequireForm(data=request.POST)
     if form.is_valid():
         form.instance.project = request.tracer.project
         form.instance.creator = request.user
         form.instance.update_user = request.user
         instance = form.save()
-        return JsonResponse({'status': True, 'data': instance})
+        return JsonResponse({'status': True})
+    return JsonResponse({'status': False, 'error': form.errors})
+
+def delete_app_require(request, project_id):
+    require_title = request.POST.get('title')
+    if not require_title:
+        return JsonResponse({'error': "需求名称不能为空"})
+
+    if request.user != request.tracer.project.creator:
+        return JsonResponse({'error': "只有项目创建者可删除项目"})
+    try:
+        models.AppRequire.objects.filter(title=require_title, project_id=project_id).delete()
+    except:
+        return JsonResponse({"status": False, "error": "没有此需求"})
+    return JsonResponse({"status": True})
+
+def debug(request, project_id):
+    if request.method == 'GET':
+        return render(request, 'setting_debug.html')
+    form = DeveloperDebugForm(data=request.POST)
+    if form.is_valid():
+        form.instance.project = request.tracer.project
+        form.instance.creator = request.user
+        instance = form.save()
+        return JsonResponse({'status': True})
     return JsonResponse({'status': False, 'error': form.errors})

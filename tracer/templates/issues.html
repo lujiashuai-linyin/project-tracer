@@ -508,6 +508,7 @@
         function initSelect2() {
             $('.select2').select2({}).on('select2:select', function (e) {
                 // 选中某一项触发
+                {#console.log(e.params.data)#}
                 location.href = e.params.data.id;
             }).on('select2:unselect', function (e) {
                 // 移除某一项触发

@@ -113,7 +113,7 @@ def issues(request, project_id):
         )
         project_issues_type = models.IssuesType.objects.filter(project_id=project_id).values_list('id', 'title')
         project_total_user = [(request.tracer.project.creator_id, request.tracer.project.creator.username), ]
-        join_user = models.ProjectUser.objects.filter(project_id=project_id).values_list('user__nid', 'user__username')
+        join_user = models.ProjectUser.objects.filter(project_id=project_id).values_list('user__pk', 'user__username')
         list(project_issues_type).extend(join_user)
         relate_require = models.AppRequire.objects.filter(project_id=project_id).values_list('id', 'title')
 

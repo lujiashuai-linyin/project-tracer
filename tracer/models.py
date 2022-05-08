@@ -240,13 +240,13 @@ class IssuesType(models.Model):
         return self.title
 
 class AppRequire(models.Model):
-    project = models.ForeignKey(verbose_name='项目', to='Project', default=None, on_delete=models.CASCADE)
-    title = models.CharField(verbose_name='需求名称', max_length=32)
+    project = models.ForeignKey(verbose_name='项目', to='Project', on_delete=models.CASCADE)
+    title = models.CharField(verbose_name='需求名称', unique=True, max_length=32)
     content = models.TextField(verbose_name='需求内容')
     creator = models.ForeignKey(verbose_name='创建者', to='UserInfo', null=True, blank=True,
                                 on_delete=models.SET_NULL)
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
-    update_user = models.CharField(verbose_name='最近更新', max_length=16)
+    update_user = models.CharField(verbose_name='最近更新', null=True, blank=True, max_length=16)
     update_time = models.DateTimeField(verbose_name='更新时间', auto_now=True)
 
     def __str__(self):
@@ -282,3 +282,31 @@ class ProjectInvite(models.Model):
     period = models.IntegerField(verbose_name='有效期', choices=period_choices, default=1440)
     create_datetime = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     creator = models.ForeignKey(verbose_name='创建者', to='UserInfo', related_name='create_invite', on_delete=models.CASCADE)
+
+class DeveloperDebug(models.Model):
+    project = models.ForeignKey(verbose_name='项目', to='Project', on_delete=models.CASCADE)
+    title = models.CharField(verbose_name='需求或bug名称', unique=True, max_length=32)
+    content = models.TextField(verbose_name='需求或bug内容')
+    creator = models.ForeignKey(verbose_name='创建者', to='UserInfo', null=True, blank=True,
+                                on_delete=models.SET_NULL)
+    create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class SceneInfo(models.Model):
+    PLATFORM = (
+        (0, "Android"),
+        (1, "iOS")
+    )
+    platform = models.SmallIntegerField(verbose_name='平台', choices=PLATFORM, default=0)
+    scene_id = models.CharField(verbose_name='场景id', max_length=16)
+    test_path = models.CharField(verbose_name='脚本路径', max_length=248)
+    scene_path = models.CharField(verbose_name='场景路径', max_length=124, null=True, blank=True)
+    create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+
+    class Meta:
+        unique_together = ('platform', 'scene_id')
+
+    def __str__(self):
+        return self.scene_id

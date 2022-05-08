@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["10.76.97.215", "127.0.0.1", "192.168.83.64"]
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -179,6 +180,7 @@ WHITE_REGEX_URL_LIST = [
     '/manage/10/result/save/',
     '/manage/10/project/detail/',
     '/manage/10/result/search/',
+    '/manage/10/project/mock/scene/',
 
     # detector
     '/detector/parser/index/',

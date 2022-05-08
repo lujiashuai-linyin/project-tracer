@@ -1,5 +1,6 @@
 {% extends 'layout/manage.html' %}
 {% load setting %}
+{% load static %}
 {% block css %}
     <style>
         .panel-heading i {
@@ -19,26 +20,27 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-keyboard-o" aria-hidden="true"></i>开发者</div>
                 <div class="panel-body">
-
-                    <form class="form-horizontal" method="post">
+                    <form id="form" class="form-horizontal">
                         {% csrf_token %}
                         <div class="form-group">
                             <label class="col-sm-2 control-label">需求或问题标题</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="请输入标题" name="require_name">
+                                <input type="text" class="form-control" placeholder="请输入标题" id="id_title" name="title">
                                 <span class="error">{{ error }}</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">需求或问题内容</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="请输入需求或问题" name="require_content">
-                                <span class="error">{{ error }}</span>
+                                <div id="editor">
+                                    <textarea type="text" class="form-control" placeholder="请输入需求或问题" id="id_content" name="content"></textarea>
+                                    <span class="error">{{ error }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-5">
-                                <input type="submit" class="btn btn-warning" value="提 交">
+                                <input type="button" class="btn btn-warning" value="提 交">
                             </div>
                         </div>
 
@@ -49,4 +51,50 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+{#    <script src="{% static 'plugin/editor-md/editormd.min.js' %}"></script>#}
+
+    <script>
+        var LOCAL_URL = "{% url 'debug' project_id=request.tracer.project.id %}";
+        {#var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";#}
+
+        $(function (){
+            submit();
+            {#initEditorMd();#}
+        })
+        function submit(){
+            $('.btn').click(function (){
+                $('.error').empty();
+                $.ajax({
+                    url: LOCAL_URL,
+                    type: "post",
+                    dataType: 'JSON',
+                    data: $('#form').serialize(),
+                    success: function (data){
+                        if(data.status){
+                            $('#form').get(0).reset()
+                            alert("提交成功，林音已收到")
+                        }else {
+                            console.log(data.error)
+                            $.each(data.error, function (field, error_list) {
+                                $("#id_" + field).next().text(error_list[0]);
+                            })
+                        }
+                    }
+                })
+            })
+        }
+        {#function initEditorMd() {#}
+        {#    editormd('editor',{#}
+        {#        placeholder: '请输入内容',#}
+        {#        height: 500,#}
+        {#        path: '{% static 'plugin/editor-md/lib/' %}',#}
+        {#        imageUpload: true,#}
+        {#        imageFormats: ["jpg", "jpeg", "png", 'gif'],#}
+        {#        imageUploadURL: WIKI_UPLOAD_URL#}
+        {#    })#}
+
+    </script>
 {% endblock %}
