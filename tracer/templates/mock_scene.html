@@ -1,0 +1,133 @@
+{% extends 'layout/manage.html' %}
+{% load static %}
+{% block title %}{{ request.tracer.project.name }}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugin/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/bootstrap-select/css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugin/select2/css/select2.min.css' %}">
+
+    <style>
+        .account {
+            width: 1500px;
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #f0f0f0;
+            padding: 10px 30px 30px 30px;
+            -webkit-box-shadow: 5px 10px 10px rgba(0, 0, 0, .05);
+            box-shadow: 5px 10px 10px rgba(0, 0, 0, .05);
+        }
+
+        .test-result-form {
+            text-align: center;
+        }
+        .form-group {
+            margin-left: 10px;
+        }
+        #form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination {
+            float: right;
+            margin-top: 10px;
+        }
+        .platform {
+            text-align: center;
+        }
+        .event-head {
+            text-align: center;
+        }
+        .result {
+            width: 80px;
+            text-align: center;
+        }
+        .results-list .version {
+            text-align: center;
+        }
+        .results-list .test-path {
+            text-align: center;
+        }
+        .test_path {
+            text-align: left;
+        }
+        .results-list .task-id {
+            text-align: center;
+        }
+        .results-list .case-url {
+            text-align: center;
+        }
+        .results-list .create-time {
+            width: 180px;
+            text-align: center;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="account">
+        <div class="test-result-form">
+            <table class="table" border="1" style="border-collapse:collapse;">
+                <tbody class="results-list">
+                <tr class="heard">
+                    <th class="platform">平台</th>
+                    <th class="task-id">场景ID</th>
+                    <th class="test-path">场景路径</th>
+                    <th class="test-path">测试路径</th>
+                    <th class="create-time">创建时间</th>
+                </tr>
+                {% for item in scene_object_list %}
+                    <tr>
+                        <td class="platform">
+                            <div>{{ item.get_platform_display }}</div>
+                        </td>
+                        <td class="scene_id">
+                            <div>
+                                {{ item.scene_id }}
+                            </div>
+                        </td>
+                        <td class="scene_path">
+                            <div>{{ item.scene_path }}</div>
+                        </td>
+                        <td class="test_path">
+                            <div>
+                                {{ item.test_path }}
+                            </div>
+                        </td>
+                        <td class="create-time">
+                            <div>{{ item.create_time|date:"Y年m月d日 H:i" }}</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav id="page" aria-label="...">
+                <ul class="pagination" style="margin-top: 0">
+                    <li class='disabled'><a>共{{ tot }}条数据</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'plugin/bootstrap-select/js/i18n/defaults-zh_CN.min.js' %}"></script>
+    <script src="{% static 'plugin/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugin/select2/js/i18n/zh-CN.js' %}"></script>
+
+    <script>
+        $(function () {
+            initDropdown();
+        })
+
+        function initDropdown(){
+            $('.dropdown-toggle').dropdown();
+        }
+    </script>
+{% endblock %}

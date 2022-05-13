@@ -305,8 +305,8 @@ class SceneInfo(models.Model):
     scene_path = models.CharField(verbose_name='场景路径', max_length=124, null=True, blank=True)
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
 
-    class Meta:
-        unique_together = ('platform', 'scene_id')
+    # class Meta:
+    #     unique_together = ('platform', 'scene_id', 'test_path')
 
     def __str__(self):
         return self.scene_id

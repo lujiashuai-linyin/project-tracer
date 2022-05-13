@@ -1,0 +1,129 @@
+{% extends 'layout/manage.html' %}
+{% load setting %}
+{% load static %}
+{% block css %}
+    <style>
+        .panel-heading i {
+            margin-right: 3px;
+        }
+        .choose {
+            border-left: 2px solid #f90 !important;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container clearfix" style="margin-top: 20px;">
+        <div class="col-sm-3">
+            {% setting_base_list request %}
+        </div>
+        <div class="col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i>项目管理</div>
+                <div class="panel-body">
+                    <form id="add-form" class="form-horizontal">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">需求标题</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入标题" id="id_title" name="title">
+                                <span class="error">{{ error }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">需求内容</label>
+                            <div class="col-sm-5">
+                                <div id="editor">
+                                    <textarea type="text" class="form-control" placeholder="请输入需求内容" id="id_content" name="content"></textarea>
+                                    <span class="error">{{ error }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <input type="button" class="btn btn-warning" id="add-submit" value="提 交">
+                            </div>
+                        </div>
+
+                    </form>
+                    <form id="delete-form" class="form-horizontal">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">需求标题</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入标题" id="id_title2" name="title">
+                                <span class="error">{{ error }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <input type="button" class="btn btn-danger" id="delete" value="删 除">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {#    <script src="{% static 'plugin/editor-md/editormd.min.js' %}"></script>#}
+
+    <script>
+        var LOCAL_URL = "{% url 'app_require' project_id=request.tracer.project.id %}";
+        var DELETE_URL = "{% url 'delete_app_require' project_id=request.tracer.project.id %}";
+
+        {#var WIKI_UPLOAD_URL = "{% url 'wiki_upload' project_id=request.tracer.project.id %}";#}
+
+        $(function (){
+            submit();
+            deleteRequire();
+            {#initEditorMd();#}
+        })
+        function submit(){
+            $('#add-submit').click(function (){
+                $('.error').empty();
+                $.ajax({
+                    url: LOCAL_URL,
+                    type: "post",
+                    dataType: 'JSON',
+                    data: $('#add-form').serialize(),
+                    success: function (data){
+                        if(data.status){
+                            $('#add-form').get(0).reset()
+                            alert("添加成功")
+                        }else {
+                            console.log(data.error)
+                            $.each(data.error, function (field, error_list) {
+                                $("#id_" + field).next().text(error_list[0]);
+                            })
+                        }
+                    }
+                })
+            })
+        }
+        function deleteRequire(){
+            $('#delete').click(function (){
+                $('.error').empty();
+                $.ajax({
+                    url: DELETE_URL,
+                    type: "post",
+                    dataType: 'JSON',
+                    data: $('#delete-form').serialize(),
+                    success: function (data){
+                        if(data.status){
+                            $('#delete-form').get(0).reset()
+                            alert("删除成功")
+                        }else {
+                            console.log(data.error)
+                            $("#id_title2").next().text(data.error);
+                        }
+                    }
+                })
+            })
+        }
+
+    </script>
+{% endblock %}
